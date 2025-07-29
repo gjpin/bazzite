@@ -1,6 +1,71 @@
 #!/usr/bin/bash
 
 ################################################
+##### General
+################################################
+
+# Disable blur-my-shell extension
+gnome-extensions disable blur-my-shell
+
+################################################
+##### Firefox
+################################################
+
+# Set Firefox profile path
+export FIREFOX_PROFILE_PATH=$(find ${HOME}/.var/app/org.mozilla.firefox/.mozilla/firefox -type d -name "*.default-release")
+
+# Install Firefox Gnome theme
+mkdir -p ${FIREFOX_PROFILE_PATH}/chrome
+git clone https://github.com/rafaelmardojai/firefox-gnome-theme.git ${FIREFOX_PROFILE_PATH}/chrome/firefox-gnome-theme
+echo '@import "firefox-gnome-theme/userChrome.css"' > ${FIREFOX_PROFILE_PATH}/chrome/userChrome.css
+echo '@import "firefox-gnome-theme/userContent.css"' > ${FIREFOX_PROFILE_PATH}/chrome/userContent.css
+curl -sSL https://raw.githubusercontent.com/gjpin/bazzite/main/configs/firefox/gnome.js >> ${FIREFOX_PROFILE_PATH}/user.js
+
+# Firefox theme updater
+tee -a ${HOME}/.local/bin/update-all << 'EOF'
+
+################################################
+##### Firefox
+################################################
+
+# Update Firefox theme
+FIREFOX_PROFILE_PATH=$(realpath ${HOME}/.var/app/org.mozilla.firefox/.mozilla/firefox/*.default-release)
+git -C ${FIREFOX_PROFILE_PATH}/chrome/firefox-gnome-theme pull
+EOF
+
+################################################
+##### GTK theme
+################################################
+
+# Install adw-gtk3 flatpak
+flatpak install -y flathub org.gtk.Gtk3theme.adw-gtk3
+flatpak install -y flathub org.gtk.Gtk3theme.adw-gtk3-dark
+
+# Download and install latest adw-gtk3 release
+URL=$(curl -s https://api.github.com/repos/lassekongo83/adw-gtk3/releases/latest | awk -F\" '/browser_download_url.*.tar.xz/{print $(NF-1)}')
+curl -sSL ${URL} -O
+tar -xf adw-*.tar.xz -C ${HOME}/.local/share/themes/
+rm -f adw-*.tar.xz
+
+# Set adw-gtk3 theme
+gsettings set org.gnome.desktop.interface gtk-theme 'adw-gtk3'
+gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
+
+# GTK theme updater
+tee -a ${HOME}/.local/bin/update-all << 'EOF'
+
+################################################
+##### GTK theme
+################################################
+
+URL=$(curl -s https://api.github.com/repos/lassekongo83/adw-gtk3/releases/latest | awk -F\" '/browser_download_url.*.tar.xz/{print $(NF-1)}')
+curl -sSL ${URL} -O
+rm -rf ${HOME}/.local/share/themes/adw-gtk3*
+tar -xf adw-*.tar.xz -C ${HOME}/.local/share/themes/
+rm -f adw-*.tar.xz
+EOF
+
+################################################
 ##### Ptyxis shortcuts
 ################################################
 
@@ -32,8 +97,8 @@ gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/or
 gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/ name 'nautilus'
 
 gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/ binding '<Shift><Control>Escape'
-gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/ command 'flatpak run net.nokyan.Resources'
-gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/ name 'net.nokyan.Resources'
+gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/ command 'flatpak run io.missioncenter.MissionCenter'
+gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/ name 'io.missioncenter.MissionCenter'
 
 # Change alt+tab behaviour
 gsettings set org.gnome.desktop.wm.keybindings switch-applications "@as []"
@@ -75,7 +140,7 @@ gsettings set org.gtk.Settings.FileChooser sort-directories-first true
 gsettings set org.gnome.nautilus.icon-view default-zoom-level 'small-plus'
 
 # Laptop specific
-if cat /sys/class/dmi/id/chassis_type | grep 10 > /dev/null; then
+if [ ${DESKTOP} = "no" ]; then
   gsettings set org.gnome.desktop.interface show-battery-percentage true
   gsettings set org.gnome.desktop.peripherals.touchpad tap-to-click true
   gsettings set org.gnome.desktop.peripherals.touchpad disable-while-typing false

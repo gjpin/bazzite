@@ -1,6 +1,73 @@
 #!/usr/bin/bash
 
 ################################################
+##### Set variables
+################################################
+
+read -p "Desktop (yes / no): " DESKTOP
+export DESKTOP
+
+read -p "Hostname: " NEW_HOSTNAME
+export NEW_HOSTNAME
+
+################################################
+##### General
+################################################
+
+# Set hostname
+sudo hostnamectl set-hostname --pretty "${NEW_HOSTNAME}"
+sudo hostnamectl set-hostname --static "${NEW_HOSTNAME}"
+
+# Create common directories
+mkdir -p \
+    ${HOME}/.local/share/themes \
+    ${HOME}/.local/bin
+
+# Create WireGuard folder
+sudo mkdir -p /etc/wireguard
+sudo chmod 700 /etc/wireguard
+
+# Make NM not block boot
+sudo systemctl disable --now NetworkManager-wait-online.service
+
+# Enable BTRFS dedup
+# https://github.com/ublue-os/bazzite/blob/main/system_files/desktop/shared/usr/share/ublue-os/just/85-bazzite-image.just#L4
+ujust enable deduplication
+
+# Disable MOTD
+ujust toggle-user-motd
+
+# Install Decky Loader
+# https://github.com/ublue-os/bazzite/blob/main/system_files/desktop/shared/usr/share/ublue-os/just/80-bazzite.just#L274
+ujust setup-decky install
+
+# Enable LUKS TPM unlock
+# https://github.com/ublue-os/packages/blob/main/packages/ublue-os-luks/src/luks-disable-tpm2-autounlock
+# https://github.com/ublue-os/packages/blob/main/packages/ublue-os-just/src/recipes/15-luks.just
+ujust setup-luks-tpm-unlock
+
+################################################
+##### Desktop / HTPC
+################################################
+
+if [ ${DESKTOP} = "yes" ]; then
+  # Enable WoL
+  # https://github.com/ublue-os/bazzite/blob/main/system_files/desktop/shared/usr/share/ublue-os/just/81-bazzite-fixes.just#L92
+  ujust toggle-wol force-enable
+  
+  # Fix WoL
+  sudo grubby --update-kernel=ALL --args=xhci_hcd.quirks=270336  
+  
+  # Enable Sunshine
+  # https://github.com/ublue-os/bazzite/blob/main/system_files/desktop/shared/usr/share/ublue-os/just/82-bazzite-sunshine.just
+  ujust setup-sunshine enable  
+  
+  # Install LACT
+  # https://github.com/ublue-os/bazzite/blob/main/system_files/desktop/shared/usr/share/ublue-os/just/82-bazzite-apps.just#L28
+  ujust install-lact
+fi
+
+################################################
 ##### Updates
 ################################################
 
@@ -25,7 +92,13 @@ sudo fwupdmgr update
 
 # Update Flatpak apps
 flatpak update -y
-flatpak uninstall -y --unused
+
+################################################
+##### General
+################################################
+
+# Clean up unused resources
+ujust clean-system
 EOF
 
 chmod +x ${HOME}/.local/bin/update-all
@@ -44,33 +117,13 @@ curl https://addons.mozilla.org/firefox/downloads/file/4003969/ublock_origin-lat
 # Import Firefox configs
 curl https://raw.githubusercontent.com/gjpin/bazzite/main/configs/firefox/user.js -o ${FIREFOX_PROFILE_PATH}/user.js
 
-# Desktop environment specific configurations
+################################################
+##### Desktop Environment
+################################################
+
+# Install and configure desktop environment
 if [[ "$XDG_CURRENT_DESKTOP" == *"GNOME"* ]]; then
-    # Firefox Gnome theme integration
-    mkdir -p ${FIREFOX_PROFILE_PATH}/chrome
-    git clone https://github.com/rafaelmardojai/firefox-gnome-theme.git ${FIREFOX_PROFILE_PATH}/chrome/firefox-gnome-theme
-    echo '@import "firefox-gnome-theme/userChrome.css"' > ${FIREFOX_PROFILE_PATH}/chrome/userChrome.css
-    echo '@import "firefox-gnome-theme/userContent.css"' > ${FIREFOX_PROFILE_PATH}/chrome/userContent.css
-    curl -sSL https://raw.githubusercontent.com/gjpin/bazzite/main/configs/firefox/gnome.js >> ${FIREFOX_PROFILE_PATH}/user.js
-
-    # Firefox theme updater
-    tee -a ${HOME}/.local/bin/update-all << 'EOF'
-
-################################################
-##### Firefox
-################################################
-
-# Update Firefox theme
-FIREFOX_PROFILE_PATH=$(realpath ${HOME}/.var/app/org.mozilla.firefox/.mozilla/firefox/*.default-release)
-git -C ${FIREFOX_PROFILE_PATH}/chrome/firefox-gnome-theme pull
-EOF
+    ./gnome.sh
 elif [[ "$XDG_CURRENT_DESKTOP" == *"KDE"* ]]; then
-    # Better KDE Plasma integration
-    curl -sSL https://raw.githubusercontent.com/gjpin/bazzite/main/configs/firefox/plasma.js >> ${FIREFOX_PROFILE_PATH}/user.js
 
-tee -a ${HOME}/.local/share/flatpak/overrides/org.mozilla.firefox << EOF
-
-[Environment]
-GTK_THEME=Breeze
-EOF
 fi
