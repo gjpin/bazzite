@@ -7,6 +7,10 @@
 # Disable blur-my-shell extension
 gnome-extensions disable blur-my-shell@aunetx
 
+# Set wallpaper
+gsettings set org.gnome.desktop.background picture-uri file:///usr/share/backgrounds/gnome/blobs-d.svg
+gsettings set org.gnome.desktop.background picture-uri-dark file:///usr/share/backgrounds/gnome/blobs-d.svg
+
 # Install Adwaita theme for Steam
 # https://github.com/ublue-os/bazzite/blob/main/system_files/desktop/shared/usr/share/ublue-os/just/82-bazzite-apps.just#L28
 # ujust install-adwaita-for-steam
