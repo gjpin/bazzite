@@ -5,7 +5,7 @@
 ################################################
 
 # Disable blur-my-shell extension
-gnome-extensions disable blur-my-shell
+gnome-extensions disable blur-my-shell@aunetx
 
 # Install Adwaita theme for Steam
 # https://github.com/ublue-os/bazzite/blob/main/system_files/desktop/shared/usr/share/ublue-os/just/82-bazzite-apps.just#L28
