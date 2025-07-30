@@ -1,7 +1,15 @@
 # bazzite
 1. Run setup.sh
-2. (if applicable) Access sunshine and configure access
-3. (if applicable) Configure secondary drive in Steam and make it the default
+2. Access sunshine and configure access
+3. Configure secondary drive in Steam and make it the default
+4. Configure Heroic:
+   * General -> Set folder for new wine prefix: $HOME/Games/Heroic/Prefixes
+   * General -> Automatically update games
+   * General -> Add games to Steam automatically
+   * Game Defaults -> WinePrefix folder: $HOME/Games/Heroic/Prefixes
+   * Add Heroic to Steam (Steam -> Add a Game -> Heroic)
+5. Install Decky Loader plugins
+   * SteamGridDB
 
 ## Format and encrypt extra drive
 ```bash
