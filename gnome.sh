@@ -127,6 +127,9 @@ gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-4 "['<Shift><Su
 ##### Gnome UI / UX changes
 ################################################
 
+# Set accent color
+gsettings set org.gnome.desktop.interface accent-color blue
+
 # Set windows buttons
 gsettings set org.gnome.desktop.wm.preferences button-layout menu:appmenu,close
 
