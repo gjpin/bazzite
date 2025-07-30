@@ -1,5 +1,6 @@
 # bazzite
-
+1. Run setup.sh
+2. (if applicable) Access sunshine and configure access
 
 ## Format and encrypt extra drive
 ```bash

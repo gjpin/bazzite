@@ -44,7 +44,7 @@ ujust setup-decky install
 ujust setup-luks-tpm-unlock
 
 # Enable automounting
-# https://github.com/ublue-os/bazzite/blob/main/system_files/desktop/shared/usr/share/ublue-os/just/80-bazzite.just
+# https://github.com/ublue-os/bazzite/blob/main/system_files/desktop/shared/usr/share/ublue-os/just/80-bazzite.just#L201
 ujust enable-automounting
 
 # Add user to input group
@@ -68,6 +68,11 @@ if cat /sys/class/dmi/id/chassis_type | grep 3 > /dev/null; then
   # https://github.com/ublue-os/bazzite/blob/main/system_files/desktop/shared/usr/share/ublue-os/just/82-bazzite-sunshine.just
   ujust setup-sunshine enable  
   
+  # Full AMD GPU control
+  if lspci | grep "VGA" | grep "AMD" > /dev/null; then
+    sudo grubby --update-kernel=ALL --args=amdgpu.ppfeaturemask=0xffffffff
+  fi
+
   # Install LACT
   # https://github.com/ublue-os/bazzite/blob/main/system_files/desktop/shared/usr/share/ublue-os/just/82-bazzite-apps.just#L28
   ujust install-lact
