@@ -7,6 +7,10 @@
 # Disable blur-my-shell extension
 gnome-extensions disable blur-my-shell
 
+# Install Adwaita theme for Steam
+# https://github.com/ublue-os/bazzite/blob/main/system_files/desktop/shared/usr/share/ublue-os/just/82-bazzite-apps.just#L28
+# ujust install-adwaita-for-steam
+
 ################################################
 ##### Firefox
 ################################################
@@ -140,7 +144,7 @@ gsettings set org.gtk.Settings.FileChooser sort-directories-first true
 gsettings set org.gnome.nautilus.icon-view default-zoom-level 'small-plus'
 
 # Laptop specific
-if [ ${DESKTOP} = "no" ]; then
+if cat /sys/class/dmi/id/chassis_type | grep 10 > /dev/null; then
   gsettings set org.gnome.desktop.interface show-battery-percentage true
   gsettings set org.gnome.desktop.peripherals.touchpad tap-to-click true
   gsettings set org.gnome.desktop.peripherals.touchpad disable-while-typing false

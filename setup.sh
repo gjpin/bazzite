@@ -4,9 +4,6 @@
 ##### Set variables
 ################################################
 
-read -p "Desktop (yes / no): " DESKTOP
-export DESKTOP
-
 read -p "Hostname: " NEW_HOSTNAME
 export NEW_HOSTNAME
 
@@ -42,15 +39,24 @@ ujust toggle-user-motd
 ujust setup-decky install
 
 # Enable LUKS TPM unlock
-# https://github.com/ublue-os/packages/blob/main/packages/ublue-os-luks/src/luks-disable-tpm2-autounlock
+# https://github.com/ublue-os/packages/blob/main/packages/ublue-os-luks/src/luks-enable-tpm2-autounlock
 # https://github.com/ublue-os/packages/blob/main/packages/ublue-os-just/src/recipes/15-luks.just
 ujust setup-luks-tpm-unlock
 
+# Enable automounting
+# https://github.com/ublue-os/bazzite/blob/main/system_files/desktop/shared/usr/share/ublue-os/just/80-bazzite.just
+ujust enable-automounting
+
+# Add user to input group
+# https://github.com/ublue-os/bazzite/blob/main/system_files/desktop/shared/usr/share/ublue-os/just/80-bazzite.just#L193
+ujust add-user-to-input-group
+
 ################################################
-##### Desktop / HTPC
+##### Device type specific configurations
 ################################################
 
-if [ ${DESKTOP} = "yes" ]; then
+# Desktop
+if cat /sys/class/dmi/id/chassis_type | grep 3 > /dev/null; then
   # Enable WoL
   # https://github.com/ublue-os/bazzite/blob/main/system_files/desktop/shared/usr/share/ublue-os/just/81-bazzite-fixes.just#L92
   ujust toggle-wol force-enable
@@ -65,6 +71,14 @@ if [ ${DESKTOP} = "yes" ]; then
   # Install LACT
   # https://github.com/ublue-os/bazzite/blob/main/system_files/desktop/shared/usr/share/ublue-os/just/82-bazzite-apps.just#L28
   ujust install-lact
+fi
+
+# Steam Deck
+SYS_ID="$(/usr/libexec/hwsupport/sysid)"
+if [[ ":Jupiter:" =~ ":$SYS_ID:" || ":Galileo:" =~ ":$SYS_ID:" ]]; then
+  # Enable Steam Deck bios/firmware updates
+  # https://github.com/ublue-os/bazzite/blob/main/system_files/deck/shared/usr/share/ublue-os/just/85-bazzite-image.just#L41
+  ujust enable-deck-bios-firmware-updates
 fi
 
 ################################################
@@ -123,7 +137,7 @@ curl https://raw.githubusercontent.com/gjpin/bazzite/main/configs/firefox/user.j
 
 # Install and configure desktop environment
 if [[ "$XDG_CURRENT_DESKTOP" == *"GNOME"* ]]; then
-    ./gnome.sh
+  ./gnome.sh
 elif [[ "$XDG_CURRENT_DESKTOP" == *"KDE"* ]]; then
-
+  ./plasma.sh
 fi
