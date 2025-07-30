@@ -28,33 +28,29 @@ sudo cryptsetup luksOpen /dev/disk/by-partlabel/LUKSDATA data
 # Format partition to BTRFS
 sudo mkfs.btrfs -L data /dev/mapper/data
 
-# Mount disk
-sudo mount /dev/mapper/data /mnt
+# Create the mountpoint
+sudo mkdir -p /var/mnt/data
 
-# Create sub-volumes
-sudo btrfs subvolume create /mnt/@data
-
-# Unmount disk
-sudo umount /mnt
-
-# Auto-mount
+# Auto-mount disk
 sudo tee -a /etc/fstab << EOF
 
 # data disk
-/dev/mapper/data   /var/mnt/data   btrfs   subvol=@data,noatime,compress=zstd,x-systemd.requires=systemd-cryptsetup@data.service 0 0
+/dev/mapper/data   /var/mnt/data   btrfs   noatime,compress=zstd,x-systemd.requires=systemd-cryptsetup@data.service 0 0
 EOF
 
+# Auto unlock disk
 sudo tee -a /etc/crypttab << EOF
 
 data UUID=$(sudo blkid -s UUID -o value /dev/nvme1n1p1) none luks
 EOF
 
+# Reload systemd config
 sudo systemctl daemon-reload
 
 # Auto unlock
 sudo systemd-cryptenroll --wipe-slot=tpm2 --tpm2-device=auto --tpm2-pcrs=7+14 /dev/nvme1n1p1
 
 # Change ownership to user
-sudo umount /mnt
+sudo mount /var/mnt/data
 sudo chown -R $USER:$USER /var/mnt/data
 ```
