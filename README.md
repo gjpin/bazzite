@@ -1,6 +1,7 @@
 # bazzite
 1. Run setup.sh
 2. (if applicable) Access sunshine and configure access
+3. (if applicable) Configure secondary drive in Steam and make it the default
 
 ## Format and encrypt extra drive
 ```bash

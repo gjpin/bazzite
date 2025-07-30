@@ -18,7 +18,8 @@ sudo hostnamectl set-hostname --static "${NEW_HOSTNAME}"
 # Create common directories
 mkdir -p \
     ${HOME}/.local/share/themes \
-    ${HOME}/.local/bin
+    ${HOME}/.local/bin \
+    ${HOME}/.local/share/flatpak/overrides
 
 # Create WireGuard folder
 sudo mkdir -p /etc/wireguard
@@ -135,6 +136,16 @@ curl https://addons.mozilla.org/firefox/downloads/file/4003969/ublock_origin-lat
 
 # Import Firefox configs
 curl https://raw.githubusercontent.com/gjpin/bazzite/main/configs/firefox/user.js -o ${FIREFOX_PROFILE_PATH}/user.js
+
+################################################
+##### Applications
+################################################
+
+# Install Heroic Games Launcher
+flatpak install -y flathub com.heroicgameslauncher.hgl
+
+# Create directories for Heroic games and prefixes
+mkdir -p ${HOME}/Games/Heroic/Prefixes
 
 ################################################
 ##### Desktop Environment
