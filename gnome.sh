@@ -4,13 +4,6 @@
 ##### General
 ################################################
 
-# Disable blur-my-shell extension
-gnome-extensions disable blur-my-shell@aunetx
-
-# Set wallpaper
-gsettings set org.gnome.desktop.background picture-uri file:///usr/share/backgrounds/gnome/blobs-d.svg
-gsettings set org.gnome.desktop.background picture-uri-dark file:///usr/share/backgrounds/gnome/blobs-d.svg
-
 # Install Adwaita theme for Steam
 # https://github.com/ublue-os/bazzite/blob/main/system_files/desktop/shared/usr/share/ublue-os/just/82-bazzite-apps.just#L28
 # ujust install-adwaita-for-steam
@@ -133,6 +126,19 @@ gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-4 "['<Shift><Su
 ################################################
 ##### Gnome UI / UX changes
 ################################################
+
+# Disable blur-my-shell extension
+gnome-extensions disable blur-my-shell@aunetx
+
+# Set wallpaper
+gsettings set org.gnome.desktop.background picture-uri file:///usr/share/backgrounds/gnome/blobs-d.svg
+gsettings set org.gnome.desktop.background picture-uri-dark file:///usr/share/backgrounds/gnome/blobs-d.svg
+
+# Set fonts
+gsettings set org.gnome.desktop.interface font-name 'Adwaita Sans 10'
+gsettings set org.gnome.desktop.interface document-font-name 'Adwaita Sans 10'
+gsettings set org.gnome.desktop.wm.preferences titlebar-font 'Adwaita Sans Bold 10'
+gsettings set org.gnome.desktop.interface monospace-font-name 'Adwaita Mono Medium 10'
 
 # Set dash applications
 gsettings set org.gnome.shell favorite-apps "['org.gnome.Nautilus.desktop', 'org.mozilla.firefox.desktop', 'org.gnome.Ptyxis.desktop', 'org.gnome.TextEditor.desktop']"
