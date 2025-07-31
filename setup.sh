@@ -95,8 +95,10 @@ fi
 
 # Desktop
 if cat /sys/class/dmi/id/chassis_type | grep 3 > /dev/null; then
+
   # Download EDID profiles for virtual displays
   # Displays with 4k60 + HDR + 1280x800 support
+  sudo mkdir -p /usr/local/lib/firmware
   sudo curl https://raw.githubusercontent.com/gjpin/bazzite/main/configs/edid/dell-up2718q-dp -o /usr/local/lib/firmware/dell-up2718q-dp
   sudo curl https://raw.githubusercontent.com/gjpin/bazzite/main/configs/edid/samsung-q800t-hdmi2.1 -o /usr/local/lib/firmware/samsung-q800t-hdmi2.1
 
@@ -112,12 +114,7 @@ if cat /sys/class/dmi/id/chassis_type | grep 3 > /dev/null; then
   mkdir -p ${HOME}/.config/sunshine
 
   # Import Sunshine apps
-  if [[ "$XDG_CURRENT_DESKTOP" == *"GNOME"* ]]; then
-    curl https://raw.githubusercontent.com/gjpin/fedora-workstation/main/configs/sunshine/apps-gnome.json -o ${HOME}/.config/sunshine/apps.json
-  elif [[ "$XDG_CURRENT_DESKTOP" == *"KDE"* ]]; then
-    # TODO: plasma plasma
-    curl https://raw.githubusercontent.com/gjpin/fedora-workstation/main/configs/sunshine/apps-plasma.json -o ${HOME}/.config/sunshine/apps.json
-  fi
+  curl https://raw.githubusercontent.com/gjpin/fedora-workstation/main/configs/sunshine/apps.json -o ${HOME}/.config/sunshine/apps.json
 fi
 
 ################################################

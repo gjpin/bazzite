@@ -8,6 +8,11 @@
 # https://github.com/ublue-os/bazzite/blob/main/system_files/desktop/shared/usr/share/ublue-os/just/82-bazzite-apps.just#L28
 # ujust install-adwaita-for-steam
 
+# Disable extensions
+gnome-extensions disable blur-my-shell@aunetx
+gnome-extensions disable gsconnect@andyholmes.github.io
+gnome-extensions disable hotedge@jonathan.jdoda.ca
+
 ################################################
 ##### Firefox
 ################################################
@@ -127,14 +132,14 @@ gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-4 "['<Shift><Su
 ##### Gnome UI / UX changes
 ################################################
 
+# Re-enable hot corners
+gsettings set org.gnome.desktop.interface enable-hot-corners true
+
 # Set accent color
 gsettings set org.gnome.desktop.interface accent-color blue
 
 # Set windows buttons
 gsettings set org.gnome.desktop.wm.preferences button-layout menu:appmenu,close
-
-# Disable blur-my-shell extension
-gnome-extensions disable blur-my-shell@aunetx
 
 # Set wallpaper
 gsettings set org.gnome.desktop.background picture-uri file:///usr/share/backgrounds/gnome/blobs-d.svg

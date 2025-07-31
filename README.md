@@ -1,14 +1,18 @@
 # bazzite
 1. Run setup.sh
-2. Access sunshine and configure access
-3. Configure secondary drive in Steam and make it the default
-4. Configure Heroic:
+2. (desktop only) Access sunshine and configure access
+3. (desktop only) Configure secondary drive in Steam and make it the default
+4. Reboot
+5. (desktop only) Mirror displays (they'll be in "join" mode by default)
+6. Copy wireguard key to /etc/wireguard and enable connection `sudo nmcli con import type wireguard file /etc/wireguard/wg0.conf`
+6. Configure Moonlight clients
+7. Configure Heroic:
    * General -> Set folder for new wine prefix: $HOME/Games/Heroic/Prefixes
    * General -> Automatically update games
    * General -> Add games to Steam automatically
    * Game Defaults -> WinePrefix folder: $HOME/Games/Heroic/Prefixes
    * Add Heroic to Steam (Steam -> Add a Game -> Heroic)
-5. Install Decky Loader plugins
+6. Install Decky Loader plugins
    * SteamGridDB
 
 ## Format and encrypt extra drive
