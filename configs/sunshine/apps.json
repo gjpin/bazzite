@@ -1,0 +1,74 @@
+{
+  "apps": [
+    {
+      "name": "Auto",
+      "output": "",
+      "cmd": "",
+      "exclude-global-prep-cmd": "false",
+      "elevated": "false",
+      "prep-cmd": [
+        {
+          "do":   "wlr-randr --output HDMI-1 disable && wlr-randr --output DP-2 enable %SUNSHINE_CLIENT_WIDTH%x%SUNSHINE_CLIENT_HEIGHT%@%SUNSHINE_CLIENT_FPS%",
+          "undo": "wlr-randr --output DP-2 disable && wlr-randr --output HDMI-1 enable 3840x2160@60"
+        }
+      ],
+      "image-path": ""
+    },
+    {
+      "name": "800p",
+      "output": "",
+      "cmd": "",
+      "exclude-global-prep-cmd": "false",
+      "elevated": "false",
+      "prep-cmd": [
+        {
+          "do":   "wlr-randr --output HDMI-1 disable && wlr-randr --output DP-2 enable 1280x800@60",
+          "undo": "wlr-randr --output DP-2 disable && wlr-randr --output HDMI-1 enable 3840x2160@60"
+        }
+      ],
+      "image-path": ""
+    },
+    {
+      "name": "1080p",
+      "output": "",
+      "cmd": "",
+      "exclude-global-prep-cmd": "false",
+      "elevated": "false",
+      "prep-cmd": [
+        {
+          "do":   "wlr-randr --output HDMI-1 disable && wlr-randr --output DP-2 enable 1920x1080@60",
+          "undo": "wlr-randr --output DP-2 disable && wlr-randr --output HDMI-1 enable 3840x2160@60"
+        }
+      ],
+      "image-path": ""
+    },
+    {
+      "name": "1440p",
+      "output": "",
+      "cmd": "",
+      "exclude-global-prep-cmd": "false",
+      "elevated": "false",
+      "prep-cmd": [
+        {
+          "do":   "wlr-randr --output HDMI-1 disable && wlr-randr --output DP-2 enable 2560x1440@60",
+          "undo": "wlr-randr --output DP-2 disable && wlr-randr --output HDMI-1 enable 3840x2160@60"
+        }
+      ],
+      "image-path": ""
+    },
+    {
+      "name": "2160p",
+      "output": "",
+      "cmd": "",
+      "exclude-global-prep-cmd": "false",
+      "elevated": "false",
+      "prep-cmd": [
+        {
+          "do":   "wlr-randr --output HDMI-1 disable && wlr-randr --output DP-2 enable 3840x2160@60",
+          "undo": "wlr-randr --output DP-2 disable && wlr-randr --output HDMI-1 enable 3840x2160@60"
+        }
+      ],
+      "image-path": ""
+    }
+  ]
+}
