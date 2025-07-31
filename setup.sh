@@ -114,7 +114,7 @@ if cat /sys/class/dmi/id/chassis_type | grep 3 > /dev/null; then
   mkdir -p ${HOME}/.config/sunshine
 
   # Import Sunshine apps
-  curl https://raw.githubusercontent.com/gjpin/fedora-workstation/main/configs/sunshine/apps.json -o ${HOME}/.config/sunshine/apps.json
+  curl https://raw.githubusercontent.com/gjpin/bazzite/main/configs/sunshine/apps.json -o ${HOME}/.config/sunshine/apps.json
 fi
 
 ################################################
