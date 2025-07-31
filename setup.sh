@@ -106,6 +106,12 @@ if cat /sys/class/dmi/id/chassis_type | grep 3 > /dev/null; then
   # Replace dell-up2718q-dp with samsung-q800t-hdmi2.1 for HDMI
   sudo rpm-ostree kargs --append-if-missing="firmware_class.path=/usr/local/lib/firmware drm.edid_firmware=DP-2:dell-up2718q-dp video=DP-2:e"
 
+  if [[ "$XDG_CURRENT_DESKTOP" == *"GNOME"* ]]; then
+    # Install gnome-randr
+    curl https://raw.githubusercontent.com/gjpin/bazzite/main/apps/gnome-randr.py -o ${HOME}/.local/bin/gnome-randr
+    chmod +x ${HOME}/.local/bin/gnome-randr
+  fi
+
   # Enable Sunshine
   # https://github.com/ublue-os/bazzite/blob/main/system_files/desktop/shared/usr/share/ublue-os/just/82-bazzite-sunshine.just
   ujust setup-sunshine enable
@@ -114,7 +120,9 @@ if cat /sys/class/dmi/id/chassis_type | grep 3 > /dev/null; then
   mkdir -p ${HOME}/.config/sunshine
 
   # Import Sunshine apps
-  curl https://raw.githubusercontent.com/gjpin/bazzite/main/configs/sunshine/apps.json -o ${HOME}/.config/sunshine/apps.json
+  if [[ "$XDG_CURRENT_DESKTOP" == *"GNOME"* ]]; then
+    curl https://raw.githubusercontent.com/gjpin/bazzite/main/configs/sunshine/apps-gnome.json -o ${HOME}/.config/sunshine/apps.json
+  fi
 fi
 
 ################################################
