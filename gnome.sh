@@ -8,6 +8,10 @@
 # https://github.com/ublue-os/bazzite/blob/main/system_files/desktop/shared/usr/share/ublue-os/just/82-bazzite-apps.just#L28
 # ujust install-adwaita-for-steam
 
+# Install gnome-randr
+curl https://raw.githubusercontent.com/gjpin/bazzite/main/apps/gnome-randr.py -o ${HOME}/.local/bin/gnome-randr
+chmod +x ${HOME}/.local/bin/gnome-randr
+
 ################################################
 ##### Firefox
 ################################################

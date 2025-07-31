@@ -63,15 +63,11 @@ if cat /sys/class/dmi/id/chassis_type | grep 3 > /dev/null; then
   ujust toggle-wol force-enable
   
   # Fix WoL
-  sudo grubby --update-kernel=ALL --args=xhci_hcd.quirks=270336  
-  
-  # Enable Sunshine
-  # https://github.com/ublue-os/bazzite/blob/main/system_files/desktop/shared/usr/share/ublue-os/just/82-bazzite-sunshine.just
-  ujust setup-sunshine enable  
+  sudo rpm-ostree kargs --append-if-missing="xhci_hcd.quirks=270336"
   
   # Full AMD GPU control
   if lspci | grep "VGA" | grep "AMD" > /dev/null; then
-    sudo grubby --update-kernel=ALL --args=amdgpu.ppfeaturemask=0xffffffff
+    sudo rpm-ostree kargs --append-if-missing="amdgpu.ppfeaturemask=0xffffffff"
   fi
 
   # Install LACT
@@ -85,6 +81,43 @@ if [[ ":Jupiter:" =~ ":$SYS_ID:" || ":Galileo:" =~ ":$SYS_ID:" ]]; then
   # Enable Steam Deck bios/firmware updates
   # https://github.com/ublue-os/bazzite/blob/main/system_files/deck/shared/usr/share/ublue-os/just/85-bazzite-image.just#L41
   ujust enable-deck-bios-firmware-updates
+fi
+
+################################################
+##### Sunshine
+################################################
+
+# References:
+# https://www.answeroverflow.com/m/1276584307477057640
+# https://www.reddit.com/r/linux_gaming/comments/199ylqz/streaming_with_sunshine_from_virtual_screens/
+# https://git.linuxtv.org/v4l-utils.git/tree/utils/edid-decode/data
+# https://people.freedesktop.org/~imirkin/edid-decode/
+
+# Desktop
+if cat /sys/class/dmi/id/chassis_type | grep 3 > /dev/null; then
+  # Download EDID profiles for virtual displays
+  # Displays with 4k60 + HDR + 1280x800 support
+  sudo curl https://raw.githubusercontent.com/gjpin/bazzite/main/configs/edid/dell-up2718q-dp -o /usr/local/lib/firmware/dell-up2718q-dp
+  sudo curl https://raw.githubusercontent.com/gjpin/bazzite/main/configs/edid/samsung-q800t-hdmi2.1 -o /usr/local/lib/firmware/samsung-q800t-hdmi2.1
+
+  # Load EDID profile
+  # Replace dell-up2718q-dp with samsung-q800t-hdmi2.1 for HDMI
+  sudo rpm-ostree kargs --append-if-missing="firmware_class.path=/usr/local/lib/firmware drm.edid_firmware=DP-2:dell-up2718q-dp video=DP-2:e"
+
+  # Enable Sunshine
+  # https://github.com/ublue-os/bazzite/blob/main/system_files/desktop/shared/usr/share/ublue-os/just/82-bazzite-sunshine.just
+  ujust setup-sunshine enable
+
+  # Create Sunshine config directory
+  mkdir -p ${HOME}/.config/sunshine
+
+  # Import Sunshine apps
+  if [[ "$XDG_CURRENT_DESKTOP" == *"GNOME"* ]]; then
+    curl https://raw.githubusercontent.com/gjpin/fedora-workstation/main/configs/sunshine/apps-gnome.json -o ${HOME}/.config/sunshine/apps.json
+  elif [[ "$XDG_CURRENT_DESKTOP" == *"KDE"* ]]; then
+    # TODO: plasma plasma
+    curl https://raw.githubusercontent.com/gjpin/fedora-workstation/main/configs/sunshine/apps-plasma.json -o ${HOME}/.config/sunshine/apps.json
+  fi
 fi
 
 ################################################
