@@ -3,8 +3,8 @@
 2. (desktop only) Access sunshine and configure access
 3. (desktop only) Configure secondary drive in Steam and make it the default
 4. Reboot
-5. (desktop only) Mirror displays (they'll be in "join" mode by default)
-6. Copy wireguard key to /etc/wireguard and enable connection `sudo nmcli con import type wireguard file /etc/wireguard/wg0.conf`
+5. (desktop only) Disable virtual display: `gnome-randr --output DP-2 --off`
+6. Copy wireguard key to /etc/wireguard and enable connection: `sudo nmcli con import type wireguard file /etc/wireguard/wg0.conf`
 6. Configure Moonlight clients
 7. Configure Heroic:
    * General -> Set folder for new wine prefix: $HOME/Games/Heroic/Prefixes
