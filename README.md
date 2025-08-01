@@ -1,9 +1,9 @@
 # bazzite
 1. Run setup.sh
-2. (desktop only) Access sunshine and configure access
-3. (desktop only) Configure secondary drive in Steam and make it the default
+2. (HTPC only) Access sunshine (localhost:47990) and configure access
+3. (HTPC only) Configure secondary drive in Steam and make it the default
 4. Reboot
-5. (desktop only) Disable virtual display: `gnome-randr --output DP-2 --off`
+5. (HTPC only) Disable virtual display: `gnome-randr --output DP-2 --off`
 6. Copy wireguard key to /etc/wireguard and enable connection: `sudo nmcli con import type wireguard file /etc/wireguard/wg0.conf`
 6. Configure Moonlight clients
 7. Configure Heroic:
@@ -15,7 +15,7 @@
 6. In Steam Game Mode:
    * Install Decky Loader plugins
       * SteamGridDB
-   * Settings -> Display -> Maximum game resolution -> Native
+   * (HTPC only) Settings -> Display -> Maximum game resolution -> 3840x2160
 
 ## Format and encrypt extra drive
 ```bash
