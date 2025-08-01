@@ -62,6 +62,7 @@ ujust add-user-to-input-group
 if cat /sys/class/dmi/id/chassis_type | grep 3 > /dev/null; then
   # Enable WoL
   # https://github.com/ublue-os/bazzite/blob/main/system_files/desktop/shared/usr/share/ublue-os/just/81-bazzite-fixes.just#L92
+  ujust toggle-wol enable
   ujust toggle-wol force-enable
   
   # Fix WoL
