@@ -2,17 +2,18 @@
 1. Run setup.sh
 2. (HTPC only) Access sunshine (localhost:47990) and configure access
 3. (HTPC only) Configure secondary drive in Steam and make it the default
-4. Reboot
-5. (HTPC only) Disable virtual display: `gnome-randr --output DP-2 --off`
-6. Copy wireguard key to /etc/wireguard and enable connection: `sudo nmcli con import type wireguard file /etc/wireguard/wg0.conf`
-6. Configure Moonlight clients
-7. Configure Heroic:
+4. (HTPC only) Copy SSH public key to $HOME/.ssh/authorized_keys
+5. Reboot
+6. (HTPC only) Disable virtual display: `gnome-randr --output DP-2 --off`
+7. Copy wireguard key to /etc/wireguard and enable connection: `sudo nmcli con import type wireguard file /etc/wireguard/wg0.conf`
+8. Configure Moonlight clients
+9. Configure Heroic:
    * General -> Set folder for new wine prefix: $HOME/Games/Heroic/Prefixes
    * General -> Automatically update games
    * General -> Add games to Steam automatically
    * Game Defaults -> WinePrefix folder: $HOME/Games/Heroic/Prefixes
    * Add Heroic to Steam (Steam -> Add a Game -> Heroic)
-6. In Steam Game Mode:
+10. In Steam Game Mode:
    * Install Decky Loader plugins
       * SteamGridDB
    * (HTPC only) Settings -> Display -> Maximum game resolution -> 3840x2160

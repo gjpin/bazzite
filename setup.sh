@@ -17,6 +17,7 @@ sudo hostnamectl set-hostname --static "${NEW_HOSTNAME}"
 
 # Create common directories
 mkdir -p \
+    ${HOME}/ssh \
     ${HOME}/.local/share/themes \
     ${HOME}/.local/bin \
     ${HOME}/.local/share/flatpak/overrides \
@@ -74,6 +75,10 @@ if cat /sys/class/dmi/id/chassis_type | grep 3 > /dev/null; then
   # Install LACT
   # https://github.com/ublue-os/bazzite/blob/main/system_files/desktop/shared/usr/share/ublue-os/just/82-bazzite-apps.just#L28
   ujust install-lact
+
+  # Enable SSHD and create authorized_keys file
+  ujust toggle-ssh enable
+  touch ${HOME}/.ssh/authorized_keys
 fi
 
 # Steam Deck
