@@ -19,7 +19,8 @@ sudo hostnamectl set-hostname --static "${NEW_HOSTNAME}"
 mkdir -p \
     ${HOME}/.local/share/themes \
     ${HOME}/.local/bin \
-    ${HOME}/.local/share/flatpak/overrides
+    ${HOME}/.local/share/flatpak/overrides \
+    ${HOME}/.config/systemd/user
 
 # Create WireGuard folder
 sudo mkdir -p /etc/wireguard
@@ -106,12 +107,6 @@ if cat /sys/class/dmi/id/chassis_type | grep 3 > /dev/null; then
   # Replace dell-up2718q-dp with samsung-q800t-hdmi2.1 for HDMI
   sudo rpm-ostree kargs --append-if-missing="firmware_class.path=/usr/local/lib/firmware drm.edid_firmware=DP-2:dell-up2718q-dp video=DP-2:e"
 
-  if [[ "$XDG_CURRENT_DESKTOP" == *"GNOME"* ]]; then
-    # Install gnome-randr
-    curl https://raw.githubusercontent.com/gjpin/bazzite/main/apps/gnome-randr.py -o ${HOME}/.local/bin/gnome-randr
-    chmod +x ${HOME}/.local/bin/gnome-randr
-  fi
-
   # Enable Sunshine
   # https://github.com/ublue-os/bazzite/blob/main/system_files/desktop/shared/usr/share/ublue-os/just/82-bazzite-sunshine.just
   ujust setup-sunshine enable
@@ -184,6 +179,40 @@ flatpak install -y flathub com.heroicgameslauncher.hgl
 
 # Create directories for Heroic games and prefixes
 mkdir -p ${HOME}/Games/Heroic/Prefixes
+
+# Install and start Syncthing
+brew install syncthing
+brew services start syncthing
+
+################################################
+##### Ludusavi
+################################################
+
+# Install Ludusavi
+flatpak install -y flathub com.github.mtkennerly.ludusavi
+curl https://raw.githubusercontent.com/gjpin/bazzite/main/configs/flatpak/com.github.mtkennerly.ludusavi -o ${HOME}/.local/share/flatpak/overrides/com.github.mtkennerly.ludusavi
+
+# Set automatic backups
+# https://github.com/mtkennerly/ludusavi/blob/master/docs/help/backup-automation.md
+tee ~/.config/systemd/user/ludusavi-backup.service << 'EOF'
+[Unit]
+Description="Ludusavi backup"
+
+[Service]
+ExecStart=/usr/bin/flatpak run com.github.mtkennerly.ludusavi backup --force
+EOF
+
+tee ~/.config/systemd/user/ludusavi-backup.timer << 'EOF'
+[Unit]
+Description="Ludusavi backup timer"
+
+[Timer]
+OnCalendar=*:0/5
+Unit=ludusavi-backup.service
+
+[Install]
+WantedBy=timers.target
+EOF
 
 ################################################
 ##### Desktop Environment

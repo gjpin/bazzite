@@ -12,8 +12,10 @@
    * General -> Add games to Steam automatically
    * Game Defaults -> WinePrefix folder: $HOME/Games/Heroic/Prefixes
    * Add Heroic to Steam (Steam -> Add a Game -> Heroic)
-6. Install Decky Loader plugins
-   * SteamGridDB
+6. In Steam Game Mode:
+   * Install Decky Loader plugins
+      * SteamGridDB
+   * Settings -> Display -> Maximum game resolution -> Native
 
 ## Format and encrypt extra drive
 ```bash
