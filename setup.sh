@@ -218,7 +218,7 @@ Unit=ludusavi-backup.service
 WantedBy=timers.target
 EOF
 
-systemctl --user enable ~/.config/systemd/user/ludusavi-backup.timer
+systemctl --user enable ${HOME}/.config/systemd/user/ludusavi-backup.timer
 
 ################################################
 ##### Desktop Environment
