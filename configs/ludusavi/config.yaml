@@ -1,0 +1,3 @@
+---
+backup:
+  path: /home/$USER/Games/save-backups-pc
