@@ -19,6 +19,11 @@
       * SteamGridDB
    * (HTPC only) Settings -> Display -> Maximum game resolution -> 3840x2160
 
+## Port forward syncthing to _this machine
+```bash
+ssh -L 8385:localhost:8384 $USER@10.0.0.3
+```
+
 ## Format and encrypt extra drive
 ```bash
 # Delete old partition layout and re-read partition table
