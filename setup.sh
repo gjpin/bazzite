@@ -135,29 +135,11 @@ tee ${HOME}/.local/bin/update-all << EOF
 #!/usr/bin/bash
 
 ################################################
-##### System and firmware
+##### System
 ################################################
 
 # Update bazzite
 ujust update
-
-# Update firmware
-sudo fwupdmgr refresh
-sudo fwupdmgr update
-
-################################################
-##### Flatpaks
-################################################
-
-# Update Flatpak apps
-flatpak update -y
-
-################################################
-##### General
-################################################
-
-# Clean up unused resources
-ujust clean-system
 EOF
 
 chmod +x ${HOME}/.local/bin/update-all
