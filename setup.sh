@@ -163,7 +163,7 @@ curl https://raw.githubusercontent.com/gjpin/bazzite/main/configs/firefox/user.j
 ################################################
 
 # Install Heroic Games Launcher
-flatpak install -y flathub com.heroicgameslauncher.hgl
+sudo flatpak install -y flathub com.heroicgameslauncher.hgl
 
 # Create directories for Heroic games and prefixes
 mkdir -p ${HOME}/Games/Heroic/Prefixes
@@ -177,7 +177,7 @@ brew services start syncthing
 ################################################
 
 # Install Ludusavi
-flatpak install -y flathub com.github.mtkennerly.ludusavi
+sudo flatpak install -y flathub com.github.mtkennerly.ludusavi
 curl https://raw.githubusercontent.com/gjpin/bazzite/main/configs/flatpak/com.github.mtkennerly.ludusavi -o ${HOME}/.local/share/flatpak/overrides/com.github.mtkennerly.ludusavi
 
 # Import Ludusavi config
@@ -213,7 +213,7 @@ systemctl --user enable ${HOME}/.config/systemd/user/ludusavi-backup.timer
 ################################################
 
 # Install WiVRn
-flatpak install -y flathub io.github.wivrn.wivrn
+sudo flatpak install -y flathub io.github.wivrn.wivrn
 curl https://raw.githubusercontent.com/gjpin/bazzite/main/configs/flatpak/io.github.wivrn.wivrn -o ${HOME}/.local/share/flatpak/overrides/io.github.wivrn.wivrn
 
 ################################################
