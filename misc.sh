@@ -27,7 +27,6 @@ stream.properties = {
 }
 EOF
 
-
 # Apply changes
 systemctl --user restart pipewire wireplumber pipewire-pulse
 
