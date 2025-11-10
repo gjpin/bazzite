@@ -7,24 +7,24 @@
 ##### For reference only
 ################################################
 
-# Set Firefox profile path
+# # Set Firefox profile path
 # export FIREFOX_PROFILE_PATH=$(find ${HOME}/.var/app/org.mozilla.firefox/.mozilla/firefox -type d -name "*.default-release")
 
-# Install Firefox Gnome theme
+# # Install Firefox Gnome theme
 # mkdir -p ${FIREFOX_PROFILE_PATH}/chrome
 # git clone https://github.com/rafaelmardojai/firefox-gnome-theme.git ${FIREFOX_PROFILE_PATH}/chrome/firefox-gnome-theme
 # echo '@import "firefox-gnome-theme/userChrome.css"' > ${FIREFOX_PROFILE_PATH}/chrome/userChrome.css
 # echo '@import "firefox-gnome-theme/userContent.css"' > ${FIREFOX_PROFILE_PATH}/chrome/userContent.css
 # curl -sSL https://raw.githubusercontent.com/gjpin/bazzite/main/configs/firefox/gnome.js >> ${FIREFOX_PROFILE_PATH}/user.js
 
-# Firefox theme updater
+# # Firefox theme updater
 # tee -a ${HOME}/.local/bin/update-all << 'EOF'
 
 # ################################################
 # ##### Firefox
 # ################################################
 
-# # Update Firefox theme
+# # # Update Firefox theme
 # FIREFOX_PROFILE_PATH=$(realpath ${HOME}/.var/app/org.mozilla.firefox/.mozilla/firefox/*.default-release)
 # git -C ${FIREFOX_PROFILE_PATH}/chrome/firefox-gnome-theme pull
 # EOF

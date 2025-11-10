@@ -8,20 +8,16 @@ read -p "Hostname: " NEW_HOSTNAME
 export NEW_HOSTNAME
 
 ################################################
-##### General
+##### Shared configurations
 ################################################
 
-# Create common directories
-mkdir -p \
-    ${HOME}/ssh \
-    ${HOME}/.local/share/themes \
-    ${HOME}/.local/bin \
-    ${HOME}/.local/share/flatpak/overrides \
-    ${HOME}/.config/systemd/user
-
-# Create WireGuard folder
-sudo mkdir -p /etc/wireguard
-sudo chmod 700 /etc/wireguard
+# Shared
+for module in modules/10-shared/*.sh; do
+  if [ -f "$module" ]; then
+    echo "Running shared module: $module"
+    bash "$module"
+  fi
+done
 
 ################################################
 ##### Device type specific configurations
@@ -54,39 +50,29 @@ fi
 
 # Install and configure desktop environment
 if [[ "$XDG_CURRENT_DESKTOP" == *"GNOME"* ]]; then
-  ./gnome.sh
+  for module in modules/40-gnome/*.sh; do
+    if [ -f "$module" ]; then
+      echo "Running Gnome module: $module"
+      bash "$module"
+    fi
+  done
 elif [[ "$XDG_CURRENT_DESKTOP" == *"KDE"* ]]; then
-  ./plasma.sh
+  for module in modules/50-plasma/*.sh; do
+    if [ -f "$module" ]; then
+      echo "Running Plasma module: $module"
+      bash "$module"
+    fi
+  done
 fi
 
 ################################################
-##### Updates
+##### Applications
 ################################################
 
-# Updater helper
-tee ${HOME}/.local/bin/update-all << EOF
-#!/usr/bin/bash
-
-################################################
-##### System
-################################################
-
-# Update bazzite
-ujust update
-EOF
-
-chmod +x ${HOME}/.local/bin/update-all
-
-################################################
-##### Firefox
-################################################
-
-# Set Firefox profile path
-export FIREFOX_PROFILE_PATH=$(find ${HOME}/.var/app/org.mozilla.firefox/.mozilla/firefox -type d -name "*.default-release")
-
-# Import extensions
-mkdir -p ${FIREFOX_PROFILE_PATH}/extensions
-curl https://addons.mozilla.org/firefox/downloads/file/4003969/ublock_origin-latest.xpi -o ${FIREFOX_PROFILE_PATH}/extensions/uBlock0@raymondhill.net.xpi
-
-# Import Firefox configs
-curl https://raw.githubusercontent.com/gjpin/bazzite/main/configs/firefox/user.js -o ${FIREFOX_PROFILE_PATH}/user.js
+# Applications
+for module in modules/60-applications/*.sh; do
+  if [ -f "$module" ]; then
+    echo "Running applications module: $module"
+    bash "$module"
+  fi
+done
