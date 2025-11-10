@@ -1,4 +1,4 @@
-# bazzite
+# Bazzite
 0. Update Bazzite `ujust update` and reboot
 1. Run setup.sh
 2. (HTPC only) Access sunshine (localhost:47990) and configure access
