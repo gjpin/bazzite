@@ -1,19 +1,15 @@
 #!/usr/bin/bash
 
-################################################
-##### For reference only
-################################################
-
 # Updater helper
-# tee ${HOME}/.local/bin/update-all << EOF
-# #!/usr/bin/bash
+tee ${HOME}/.local/bin/update-all << EOF
+#!/usr/bin/bash
 
-# ################################################
-# ##### System
-# ################################################
+################################################
+##### System
+################################################
 
-# # Update bazzite
-# ujust update
-# EOF
+# Update bazzite
+ujust update
+EOF
 
-# chmod +x ${HOME}/.local/bin/update-all
+chmod +x ${HOME}/.local/bin/update-all

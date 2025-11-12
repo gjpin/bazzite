@@ -76,3 +76,15 @@ for module in modules/60-applications/*.sh; do
     bash "$module"
   fi
 done
+
+################################################
+##### Emulation
+################################################
+
+# Emulation
+for module in modules/70-emulation/*.sh; do
+  if [ -f "$module" ]; then
+    echo "Running emulation module: $module"
+    bash "$module"
+  fi
+done

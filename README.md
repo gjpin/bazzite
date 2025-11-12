@@ -1,4 +1,4 @@
-# Bazzite
+# Quickstart
 0. Update Bazzite `ujust update` and reboot
 1. Run setup.sh
 2. (HTPC only) Access sunshine (localhost:47990) and configure access
@@ -19,61 +19,67 @@
       * SteamGridDB
    * (HTPC only) Settings -> Display -> Maximum game resolution -> 3840x2160
 
+# Emulation
+|**Platform**|**Standalone**|**RetroArch Core**|**Default**|
+|:---|:---|:---|:---|
+|PSX|N/A|[Beetle PSX HW](https://docs.libretro.com/library/beetle_psx_hw/)|RetroArch|
+|PS2|[PCSX2](https://github.com/PCSX2/pcsx2)|[LRPS2](https://docs.libretro.com/library/lrps2/)|Standalone|
+|PS3|[RPCS3](https://github.com/RPCS3/rpcs3)|N/A|Standalone|
+|PSP|[PPSSPP](https://github.com/hrydgard/ppsspp)|[PPSSPP](https://docs.libretro.com/library/ppsspp/)|Standalone|
+|GameCube / Wii|[Dolphin](https://github.com/dolphin-emu/dolphin)|[Dolphin](https://docs.libretro.com/library/dolphin/)|Standalone|
+|GBA|[mGBA](https://github.com/mgba-emu/mgba)|[mGBA](https://docs.libretro.com/library/mgba/)|RetroArch|
+|SNES|[Snes9x](https://github.com/snes9xgit/snes9x)|[Snes9x](https://docs.libretro.com/library/snes9x/)|RetroArch|
+|DS|[melonDS](net.kuribo64.melonDS)|[melonDS](https://docs.libretro.com/library/melonds_ds/)|Standalone|
+|3DS|[Azahar](https://github.com/azahar-emu/azahar)|[Citra](https://docs.libretro.com/library/citra/)|Standalone|
+|Wii U|[CEMU](https://github.com/cemu-project/Cemu)|N/A|Standalone|
+|Genesis / Mega Drive|N/A|[Genesis Plus GX](https://github.com/libretro/Genesis-Plus-GX)|RetroArch|
+|Dreamcast|[Flycast](https://github.com/flyinghead/flycast)|[Flycast](https://docs.libretro.com/library/flycast/)|Standalone|
+|Saturn|N/A|[Beetle Saturn](https://docs.libretro.com/library/beetle_saturn/)|RetroArch|
+
 ## Port forward syncthing to _this machine
 ```bash
 ssh -L 8385:localhost:8384 $USER@10.0.0.3
 ```
 
-## Format and encrypt extra drive
-```bash
-# Delete old partition layout and re-read partition table
-sudo wipefs -af /dev/nvme1n1
-sudo parted --script /dev/nvme1n1 mklabel gpt
+# HDMI 2.1 limitations
+References: [1](https://htpc.ninja/how-to-bypass-the-amd-hdmi-2-1-issue-in-bazzite-linux/)
 
-# Partition disk and re-read partition table
-sudo parted --script /dev/nvme1n1 \
-  mkpart primary 1MiB 100% \
-  name 1 LUKSDATA \
-  set 1 lvm off
+Steam:
+- Display setting: 1920×1080 @ 120hz
+- Automatically scale image: off
+- Automatically scale UI: off
+- Max game resolution: 3840×2160 (4k)
+- Enable HDR
 
-# Re-read partitions
-sudo partprobe /dev/nvme1n1
+Game:
+- Resolution: 3840×2160 (4k)
+- Window mode: full screen
+- Quick access menu - Scaling Filter - Sharp: 2
+- HDR: on
 
-# Encrypt and open LUKS partition
-sudo cryptsetup luksFormat \
-    --type luks2 \
-    --hash sha512 \
-    --use-random \
-    /dev/disk/by-partlabel/LUKSDATA
+# Undervolting / Overclocking
+References: [1](https://htpc.ninja/htpc-hardware-fine-tuning/), [2](https://www.reddit.com/r/radeon/comments/188k784/undervolt_settings_for_rx_7800_xt_red_devil_16gb/)
+## BIOS
+- Advanced
+  - AMD Overclocking
+    - Precision Boost Overdrive
+      - Curve optimizer: all cores
+      - All core curve optimizer sign: negative
+      - All core curve optimizer magnitude: 30
+  - PCI Subsystem settings
+    - Resize BAR support: enabled
 
-sudo cryptsetup luksOpen /dev/disk/by-partlabel/LUKSDATA data
+## LACT
+### OC
+- Power Limit: +15%
+- GPU clock offset (MHz): 500
+- Maximum VRAM clock (MHz): 2575
+- GPU voltage offset (mV): -50
 
-# Format partition to BTRFS
-sudo mkfs.btrfs -L data /dev/mapper/data
-
-# Create the mountpoint
-sudo mkdir -p /var/mnt/data
-
-# Auto-mount disk
-sudo tee -a /etc/fstab << EOF
-
-# data disk
-/dev/mapper/data   /var/mnt/data   btrfs   noatime,compress=zstd,x-systemd.requires=systemd-cryptsetup@data.service 0 0
-EOF
-
-# Auto unlock disk
-sudo tee -a /etc/crypttab << EOF
-
-data UUID=$(sudo blkid -s UUID -o value /dev/nvme1n1p1) none luks
-EOF
-
-# Reload systemd config
-sudo systemctl daemon-reload
-
-# Auto unlock
-sudo systemd-cryptenroll --wipe-slot=tpm2 --tpm2-device=auto --tpm2-pcrs=7+14 /dev/nvme1n1p1
-
-# Change ownership to user
-sudo mount /var/mnt/data
-sudo chown -R $USER:$USER /var/mnt/data
-```
+### Thermals
+- Curve:
+  - 30% at 40c
+  - 35% at 50c
+  - 40% at 60c
+  - 50% at 75c
+  - 90% at 85c

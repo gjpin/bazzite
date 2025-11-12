@@ -1,5 +1,7 @@
 #!/usr/bin/bash
 
-# Install LACT
-# https://github.com/ublue-os/bazzite/blob/main/system_files/desktop/shared/usr/share/ublue-os/just/82-bazzite-apps.just#L28
-ujust install-lact
+# Instal LACT
+sudo flatpak install -y flathub io.github.ilya_zlobintsev.LACT
+
+# Import Flatpak overrides
+cp ./configs/flatpak/io.github.ilya_zlobintsev.LACT ${HOME}/.local/share/flatpak/overrides/io.github.ilya_zlobintsev.LACT
