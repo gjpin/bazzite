@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Enable strict error handling
+set -euo pipefail
+
 # Check if both arguments are provided
 if [ $# -ne 2 ]; then
     echo "Usage: $0 <disk_name> <mount_name>"
@@ -35,14 +38,29 @@ sudo partprobe "${DISK_PATH}"
 # Encrypt and open LUKS partition
 sudo cryptsetup luksFormat \
     --type luks2 \
-    --hash sha512 \
+    --cipher aes-xts-plain64 \
+    --key-size 512 \
+    --hash blake2b-512 \
+    --pbkdf argon2id \
+    --iter-time 2000 \
     --use-random \
+    --sector-size 4096 \
+    --align-payload=8192 \
     /dev/disk/by-partlabel/LUKSDATA
+
+# Backup LUKS header
+sudo mkdir -p "${HOME}/.luks-headers"
+sudo cryptsetup luksHeaderBackup "${PARTITION_PATH}" \
+    --header-backup-file "${HOME}/.luks-headers/${MOUNT_NAME}-header-backup.img"
 
 sudo cryptsetup luksOpen /dev/disk/by-partlabel/LUKSDATA "${MOUNT_NAME}"
 
 # Format partition to BTRFS
-sudo mkfs.btrfs -L "${MOUNT_NAME}" "/dev/mapper/${MOUNT_NAME}"
+sudo mkfs.btrfs \
+    -L "${MOUNT_NAME}" \
+    --csum blake2b \
+    --features free-space-tree,skinny-metadata \
+    "/dev/mapper/${MOUNT_NAME}"
 
 # Create the mountpoint
 sudo mkdir -p "${MOUNT_PATH}"
@@ -51,7 +69,7 @@ sudo mkdir -p "${MOUNT_PATH}"
 sudo tee -a /etc/fstab << EOF
 
 # ${MOUNT_NAME} disk
-/dev/mapper/${MOUNT_NAME}   ${MOUNT_PATH}   btrfs   noatime,compress=zstd,x-systemd.requires=systemd-cryptsetup@${MOUNT_NAME}.service 0 0
+/dev/mapper/${MOUNT_NAME}  ${MOUNT_PATH}  btrfs  noatime,compress=zstd:3,discard=async,commit=120,x-systemd.requires=systemd-cryptsetup@${MOUNT_NAME}.service  0  0
 EOF
 
 # Auto unlock disk
