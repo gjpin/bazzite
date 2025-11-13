@@ -13,7 +13,7 @@ fi
 DISK_NAME="$1"
 MOUNT_NAME="$2"
 DISK_PATH="/dev/${DISK_NAME}"
-MOUNT_PATH="/var/mnt/${MOUNT_NAME}"
+MOUNT_PATH="/${MOUNT_NAME}"
 
 # Determine partition suffix (nvme/loop/mmcblk use 'p1', others use '1')
 if [[ "${DISK_NAME}" =~ ^(nvme|loop|mmcblk) ]]; then
