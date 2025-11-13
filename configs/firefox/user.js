@@ -263,3 +263,22 @@ user_pref("general.autoScroll", true);
 
 // Use PipeWire for camera handling
 user_pref("media.webrtc.camera.allow-pipewire", true);
+
+// Disable Firefox Sync
+user_pref("identity.fxaccounts.enabled", false);
+
+// Disable the Firefox View tour from popping up
+user_pref("browser.firefox-view.feature-tour", "{\"screen\":\"\",\"complete\":true}");
+
+// Disable login manager
+user_pref("signon.rememberSignons", false);
+
+// Disable address and credit card manager
+user_pref("extensions.formautofill.addresses.enabled", false);
+user_pref("extensions.formautofill.creditCards.enabled", false);
+
+// Enable Public Key Pinning
+user_pref("security.cert_pinning.enforcement_level", 2);
+
+// Disable reader
+pref("reader.parse-on-load.enabled", false);
