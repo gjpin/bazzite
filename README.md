@@ -36,7 +36,12 @@
 |Dreamcast|[Flycast](https://github.com/flyinghead/flycast)|[Flycast](https://docs.libretro.com/library/flycast/)|Standalone|
 |Saturn|N/A|[Beetle Saturn](https://docs.libretro.com/library/beetle_saturn/)|RetroArch|
 
-## Port forward syncthing to _this machine
+# Decky plugins
+- HLTB for Deck
+- SteamGridDB
+- Decky Ludusavi
+
+# Port forward syncthing to _this machine
 ```bash
 ssh -L 8385:localhost:8384 $USER@10.0.0.3
 ```
