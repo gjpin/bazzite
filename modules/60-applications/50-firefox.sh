@@ -11,4 +11,4 @@ curl https://addons.mozilla.org/firefox/downloads/file/3998783/floccus-latest.xp
 curl https://addons.mozilla.org/firefox/downloads/file/3932862/multi_account_containers-latest.xpi -o ${FIREFOX_PROFILE_PATH}/extensions/@testpilot-containers.xpi
 
 # Import Firefox configs
-curl https://raw.githubusercontent.com/gjpin/bazzite/main/configs/firefox/user.js -o ${FIREFOX_PROFILE_PATH}/user.js
+cp ./configs/firefox/user.js ${FIREFOX_PROFILE_PATH}/user.js
