@@ -27,3 +27,7 @@
 # # Enable Sunshine
 # # https://github.com/ublue-os/bazzite/blob/main/system_files/desktop/shared/usr/share/ublue-os/just/82-bazzite-sunshine.just
 # ujust setup-sunshine enable
+
+# Access sunshine (localhost:47990) and configure access
+# Disable virtual display: `gnome-randr --output DP-2 --off`
+# Configure Moonlight clients
