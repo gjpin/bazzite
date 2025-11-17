@@ -21,7 +21,7 @@
 # Emulation
 |**Platform**|**Standalone**|**RetroArch Core**|**Default**|
 |:---|:---|:---|:---|
-|PSX|N/A|[Beetle PSX HW](https://docs.libretro.com/library/beetle_psx_hw/)|RetroArch|
+|PSX|[DuckStation](https://github.com/stenzek/duckstation)|[Beetle PSX HW](https://docs.libretro.com/library/beetle_psx_hw/)|Standalone|
 |PS2|[PCSX2](https://github.com/PCSX2/pcsx2)|[LRPS2](https://docs.libretro.com/library/lrps2/)|Standalone|
 |PS3|[RPCS3](https://github.com/RPCS3/rpcs3)|N/A|Standalone|
 |PSP|[PPSSPP](https://github.com/hrydgard/ppsspp)|[PPSSPP](https://docs.libretro.com/library/ppsspp/)|Standalone|
