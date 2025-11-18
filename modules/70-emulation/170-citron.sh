@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 
 # Instal Citron
-sudo flatpak install -y private org.citron-emu.Citron
+sudo flatpak install -y private org.citronemu.Citron
 
 # Import Flatpak overrides
-cp ./configs/flatpak/org.citron-emu.Citron ${HOME}/.local/share/flatpak/overrides/org.citron-emu.Citron
+cp ./configs/flatpak/org.citronemu.Citron ${HOME}/.local/share/flatpak/overrides/org.citronemu.Citron
