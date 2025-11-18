@@ -4,5 +4,9 @@
 sudo flatpak install -y flathub com.heroicgameslauncher.hgl
 cp ./configs/flatpak/com.heroicgameslauncher.hgl ${HOME}/.local/share/flatpak/overrides/com.heroicgameslauncher.hgl
 
+# Configure MangoHud for Heroic
+mkdir -p ${HOME}/.var/app/com.heroicgameslauncher.hgl/config/MangoHud
+cp ./configs/mangohud/MangoHud.conf ${HOME}/.var/app/com.heroicgameslauncher.hgl/config/MangoHud/MangoHud.conf
+
 # Create directories for Heroic games and prefixes
 mkdir -p ${HOME}/Games/Heroic/Prefixes
