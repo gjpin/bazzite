@@ -45,32 +45,11 @@ if [[ ":Jupiter:" =~ ":$SYS_ID:" || ":Galileo:" =~ ":$SYS_ID:" ]]; then
 fi
 
 ################################################
-##### Desktop environment specific configurations
-################################################
-
-# Install and configure desktop environment
-if [[ "$XDG_CURRENT_DESKTOP" == *"GNOME"* ]]; then
-  for module in modules/40-gnome/*.sh; do
-    if [ -f "$module" ]; then
-      echo "Running Gnome module: $module"
-      bash "$module"
-    fi
-  done
-elif [[ "$XDG_CURRENT_DESKTOP" == *"KDE"* ]]; then
-  for module in modules/50-plasma/*.sh; do
-    if [ -f "$module" ]; then
-      echo "Running Plasma module: $module"
-      bash "$module"
-    fi
-  done
-fi
-
-################################################
 ##### Applications
 ################################################
 
 # Applications
-for module in modules/60-applications/*.sh; do
+for module in modules/40-applications/*.sh; do
   if [ -f "$module" ]; then
     echo "Running applications module: $module"
     bash "$module"
@@ -82,9 +61,30 @@ done
 ################################################
 
 # Emulation
-for module in modules/70-emulation/*.sh; do
+for module in modules/50-emulation/*.sh; do
   if [ -f "$module" ]; then
     echo "Running emulation module: $module"
     bash "$module"
   fi
 done
+
+################################################
+##### Desktop environment specific configurations
+################################################
+
+# Install and configure desktop environment
+if [[ "$XDG_CURRENT_DESKTOP" == *"GNOME"* ]]; then
+  for module in modules/60-gnome/*.sh; do
+    if [ -f "$module" ]; then
+      echo "Running Gnome module: $module"
+      bash "$module"
+    fi
+  done
+elif [[ "$XDG_CURRENT_DESKTOP" == *"KDE"* ]]; then
+  for module in modules/70-plasma/*.sh; do
+    if [ -f "$module" ]; then
+      echo "Running Plasma module: $module"
+      bash "$module"
+    fi
+  done
+fi
