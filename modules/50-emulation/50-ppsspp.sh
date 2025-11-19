@@ -11,6 +11,6 @@ mkdir -p ${HOME}/Games/Emulation/roms/psp
 mkdir -p ${HOME}/Games/Emulation/saves/ppsspp
 
 # Import PPSSPP configurations
-mkdir -p ${HOME}/.var/app/org.ppsspp.PPSSPP/config/ppsspp/PSP/SYSTEM
-envsubst < ./configs/ppsspp/controls.ini | tee ${HOME}/.var/app/org.ppsspp.PPSSPP/config/ppsspp/PSP/SYSTEM/controls.ini
-envsubst < ./configs/ppsspp/ppsspp.ini | tee ${HOME}/.var/app/org.ppsspp.PPSSPP/config/ppsspp/PSP/SYSTEM/ppsspp.ini
+# mkdir -p ${HOME}/.var/app/org.ppsspp.PPSSPP/config/ppsspp/PSP/SYSTEM
+# envsubst < ./configs/ppsspp/controls.ini | tee ${HOME}/.var/app/org.ppsspp.PPSSPP/config/ppsspp/PSP/SYSTEM/controls.ini
+# envsubst < ./configs/ppsspp/ppsspp.ini | tee ${HOME}/.var/app/org.ppsspp.PPSSPP/config/ppsspp/PSP/SYSTEM/ppsspp.ini

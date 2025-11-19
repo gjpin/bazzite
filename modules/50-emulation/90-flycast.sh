@@ -10,6 +10,6 @@ cp ./configs/flatpak/org.flycast.Flycast ${HOME}/.local/share/flatpak/overrides/
 mkdir -p ${HOME}/Games/Emulation/roms/dreamcast
 
 # Import Flycast configurations
-mkdir -p ${HOME}/.var/app/org.flycast.Flycast/config/flycast/mappings
-envsubst < ./configs/flycast/emu.cfg | tee ${HOME}/.var/app/org.flycast.Flycast/config/flycast/emu.cfg
-cp -R ./configs/flycast/mappings/* ${HOME}/.var/app/org.flycast.Flycast/config/flycast/mappings
+# mkdir -p ${HOME}/.var/app/org.flycast.Flycast/config/flycast/mappings
+# envsubst < ./configs/flycast/emu.cfg | tee ${HOME}/.var/app/org.flycast.Flycast/config/flycast/emu.cfg
+# cp -R ./configs/flycast/mappings/* ${HOME}/.var/app/org.flycast.Flycast/config/flycast/mappings

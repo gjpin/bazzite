@@ -11,6 +11,6 @@ mkdir -p ${HOME}/Games/Emulation/bios/gc
 mkdir -p ${HOME}/Games/Emulation/roms/{gc,wii}
 
 # Import Dolphin configurations
-mkdir -p ${HOME}/.var/app/org.DolphinEmu.dolphin-emu/config/dolphin-emu
-cp -R ./configs/dolphin/* ${HOME}/.var/app/org.DolphinEmu.dolphin-emu/config/dolphin-emu
-envsubst < ./configs/dolphin/Dolphin.ini | tee ${HOME}/.var/app/org.DolphinEmu.dolphin-emu/config/dolphin-emu/Dolphin.ini
+# mkdir -p ${HOME}/.var/app/org.DolphinEmu.dolphin-emu/config/dolphin-emu
+# cp -R ./configs/dolphin/* ${HOME}/.var/app/org.DolphinEmu.dolphin-emu/config/dolphin-emu
+# envsubst < ./configs/dolphin/Dolphin.ini | tee ${HOME}/.var/app/org.DolphinEmu.dolphin-emu/config/dolphin-emu/Dolphin.ini

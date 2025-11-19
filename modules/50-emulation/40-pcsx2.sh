@@ -14,5 +14,5 @@ mkdir -p ${HOME}/Games/Emulation/states/pcsx2
 mkdir -p ${HOME}/Games/Emulation/data/pcsx2/{snapshots,cache,covers,logs,textures,videos}
 
 # Import PCSX2 configurations
-mkdir -p ${HOME}/.var/app/net.pcsx2.PCSX2/config/PCSX2/inis
-envsubst < ./configs/pcsx2/PCSX2.ini | tee ${HOME}/.var/app/net.pcsx2.PCSX2/config/PCSX2/inis/PCSX2.ini
+# mkdir -p ${HOME}/.var/app/net.pcsx2.PCSX2/config/PCSX2/inis
+# envsubst < ./configs/pcsx2/PCSX2.ini | tee ${HOME}/.var/app/net.pcsx2.PCSX2/config/PCSX2/inis/PCSX2.ini

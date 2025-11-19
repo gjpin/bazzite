@@ -12,9 +12,9 @@ mkdir -p ${HOME}/Games/Emulation/saves/retroarch
 mkdir -p ${HOME}/Games/Emulation/states/retroarch
 
 # Import RetroArch configurations
-mkdir -p ${HOME}/.var/app/org.libretro.RetroArch/config/retroarch
-cp -R ./configs/retroarch/config/* ${HOME}/Games/Emulation/data/retroarch/config
-cp -R ./configs/retroarch/cores/* ${HOME}/Games/Emulation/data/retroarch/cores
-cp -R ./configs/retroarch/info/* ${HOME}/Games/Emulation/data/retroarch/info
-cp -R ./configs/retroarch/overlays/* ${HOME}/Games/Emulation/data/retroarch/overlays
-envsubst < ./configs/retroarch/retroarch.cfg | tee ${HOME}/.var/app/org.libretro.RetroArch/config/retroarch/retroarch.cfg
+# mkdir -p ${HOME}/.var/app/org.libretro.RetroArch/config/retroarch
+# cp -R ./configs/retroarch/config/* ${HOME}/Games/Emulation/data/retroarch/config
+# cp -R ./configs/retroarch/cores/* ${HOME}/Games/Emulation/data/retroarch/cores
+# cp -R ./configs/retroarch/info/* ${HOME}/Games/Emulation/data/retroarch/info
+# cp -R ./configs/retroarch/overlays/* ${HOME}/Games/Emulation/data/retroarch/overlays
+# envsubst < ./configs/retroarch/retroarch.cfg | tee ${HOME}/.var/app/org.libretro.RetroArch/config/retroarch/retroarch.cfg

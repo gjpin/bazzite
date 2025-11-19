@@ -13,6 +13,6 @@ mkdir -p ${HOME}/Games/Emulation/saves/mgba
 mkdir -p ${HOME}/Games/Emulation/states/mgba
 
 # Import mGBA configurations
-mkdir -p ${HOME}/.var/app/io.mgba.mGBA/config/mgba
-envsubst < ./configs/mgba/config.ini | tee ${HOME}/.var/app/io.mgba.mGBA/config/mgba/config.ini
-envsubst < ./configs/mgba/qt.ini | tee ${HOME}/.var/app/io.mgba.mGBA/config/mgba/qt.ini
+# mkdir -p ${HOME}/.var/app/io.mgba.mGBA/config/mgba
+# envsubst < ./configs/mgba/config.ini | tee ${HOME}/.var/app/io.mgba.mGBA/config/mgba/config.ini
+# envsubst < ./configs/mgba/qt.ini | tee ${HOME}/.var/app/io.mgba.mGBA/config/mgba/qt.ini
