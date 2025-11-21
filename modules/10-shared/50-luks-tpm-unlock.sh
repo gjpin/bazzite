@@ -10,7 +10,7 @@ log_start
 
 # Check if TPM unlock is already configured (idempotent)
 # Find LUKS partitions and check if any have systemd-tpm2 tokens
-LUKS_DEVICES=$(lsblk -o NAME,FSTYPE -n | grep crypto_LUKS | awk '{print "/dev/"$1}')
+LUKS_DEVICES=$(lsblk -o NAME,FSTYPE -n /dev/nvme0n1 | grep crypto_LUKS | awk '{print "/dev/"$1}')
 if [ -n "$LUKS_DEVICES" ]; then
     for device in $LUKS_DEVICES; do
         if sudo cryptsetup luksDump "$device" 2>/dev/null | grep -q systemd-tpm2; then
