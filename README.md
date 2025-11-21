@@ -18,6 +18,13 @@
    * (HTPC only) Settings -> Display -> Maximum game resolution -> 3840x2160
 7. Reboot
 
+# SteamVR
+1. Install SteamVR
+2. Set SteamVR launch options: `RADV_PERFTEST=video_encode %command%`
+3. Create OpenXR directory: `mkdir -p ~/.config/openxr/1`
+4. Set SteamVR as default OpenXR runtime: `ln -s ~/.local/share/Steam/steamapps/common/SteamVR/steamxr_linux64.json ~/.config/openxr/1/active_runtime.json`
+5. Disable SteamVR Home
+
 # Emulation
 |**Platform**|**Standalone**|**RetroArch Core**|**Default**|
 |:---|:---|:---|:---|
