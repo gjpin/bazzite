@@ -1,4 +1,8 @@
 #!/usr/bin/bash
+# Source logging functions
+source lib/logging.sh
+
+log_start
 
 # Enable LUKS TPM unlock
 # https://github.com/ublue-os/packages/blob/main/packages/ublue-os-luks/src/luks-enable-tpm2-autounlock
@@ -10,13 +14,13 @@ LUKS_DEVICES=$(lsblk -o NAME,FSTYPE -n | grep crypto_LUKS | awk '{print "/dev/"$
 if [ -n "$LUKS_DEVICES" ]; then
     for device in $LUKS_DEVICES; do
         if sudo cryptsetup luksDump "$device" 2>/dev/null | grep -q systemd-tpm2; then
-            echo "LUKS TPM unlock is already configured for $device, skipping."
+            log_info "LUKS TPM unlock is already configured for $device, skipping."
             exit 0
         fi
     done
 fi
 
-echo "Setting up LUKS TPM unlock..."
+log_info "Setting up LUKS TPM unlock..."
 ujust setup-luks-tpm-unlock
 
 ################################################
@@ -32,3 +36,6 @@ ujust setup-luks-tpm-unlock
 # if ! rpm-ostree initramfs | grep tpm2 > /dev/null; then
 #     sudo rpm-ostree initramfs --enable --arg=--force-add --arg=tpm2-tss
 # fi
+
+log_success "Module completed successfully"
+log_end

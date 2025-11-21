@@ -1,4 +1,8 @@
 #!/usr/bin/bash
+# Source logging functions
+source lib/logging.sh
+
+log_start
 
 # Windows management
 gsettings set org.gnome.desktop.wm.keybindings close "['<Shift><Super>q']"
@@ -41,3 +45,6 @@ gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-1 "['<Shift><Su
 gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-2 "['<Shift><Super>at']"
 gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-3 "['<Shift><Super>numbersign']"
 gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-4 "['<Shift><Super>dollar']"
+
+log_success "Module completed successfully"
+log_end

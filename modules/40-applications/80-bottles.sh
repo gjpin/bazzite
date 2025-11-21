@@ -1,4 +1,8 @@
 #!/usr/bin/bash
+# Source logging functions
+source lib/logging.sh
+
+log_start
 
 # Install Bottles
 flatpak install -y flathub com.usebottles.bottles
@@ -12,3 +16,6 @@ cp ./configs/flatpak/com.usebottles.bottles ${HOME}/.local/share/flatpak/overrid
 # Configure MangoHud for Bottles
 mkdir -p ${HOME}/.var/app/com.usebottles.bottles/config/MangoHud
 cp ./configs/mangohud/MangoHud.conf ${HOME}/.var/app/com.usebottles.bottles/config/MangoHud/MangoHud.conf
+
+log_success "Module completed successfully"
+log_end

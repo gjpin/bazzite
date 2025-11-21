@@ -1,4 +1,8 @@
 #!/usr/bin/bash
+# Source logging functions
+source lib/logging.sh
+
+log_start
 
 # Instal RetroArch
 sudo flatpak install -y flathub org.libretro.RetroArch
@@ -18,3 +22,6 @@ mkdir -p ${HOME}/Games/Emulation/states/retroarch
 # cp -R ./configs/retroarch/info/* ${HOME}/Games/Emulation/data/retroarch/info
 # cp -R ./configs/retroarch/overlays/* ${HOME}/Games/Emulation/data/retroarch/overlays
 # envsubst < ./configs/retroarch/retroarch.cfg | tee ${HOME}/.var/app/org.libretro.RetroArch/config/retroarch/retroarch.cfg
+
+log_success "Module completed successfully"
+log_end

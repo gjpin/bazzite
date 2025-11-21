@@ -1,4 +1,8 @@
 #!/usr/bin/bash
+# Source logging functions
+source lib/logging.sh
+
+log_start
 
 # Set Firefox profile path
 export FIREFOX_PROFILE_PATH=$(find ${HOME}/.var/app/org.mozilla.firefox/.mozilla/firefox -type d -name "*.default-release")
@@ -12,3 +16,6 @@ curl https://addons.mozilla.org/firefox/downloads/file/3932862/multi_account_con
 
 # Import Firefox configs
 cp ./configs/firefox/user.js ${FIREFOX_PROFILE_PATH}/user.js
+
+log_success "Module completed successfully"
+log_end

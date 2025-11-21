@@ -1,4 +1,8 @@
 #!/usr/bin/bash
+# Source logging functions
+source lib/logging.sh
+
+log_start
 
 # Install Flatpak runtimes and extensions
 sudo flatpak install -y flathub org.freedesktop.Platform.codecs-extra//25.08
@@ -15,3 +19,6 @@ sudo flatpak install -y flathub org.freedesktop.Platform.VulkanLayer.gamescope//
 
 # Add private repo
 sudo flatpak remote-add --if-not-exists private https://gjpin.github.io/flatpaks/index.flatpakrepo
+
+log_success "Module completed successfully"
+log_end

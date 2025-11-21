@@ -1,4 +1,8 @@
 # #!/usr/bin/bash
+# Source logging functions
+source lib/logging.sh
+
+log_start
 
 # # References:
 # # https://www.answeroverflow.com/m/1276584307477057640
@@ -31,3 +35,6 @@
 # Access sunshine (localhost:47990) and configure access
 # Disable virtual display: `gnome-randr --output DP-2 --off`
 # Configure Moonlight clients
+
+log_success "Module completed successfully"
+log_end

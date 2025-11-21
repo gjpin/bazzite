@@ -1,4 +1,8 @@
 #!/usr/bin/bash
+# Source logging functions
+source lib/logging.sh
+
+log_start
 
 # Instal PPSSPP
 sudo flatpak install -y flathub org.ppsspp.PPSSPP
@@ -14,3 +18,6 @@ mkdir -p ${HOME}/Games/Emulation/saves/ppsspp
 # mkdir -p ${HOME}/.var/app/org.ppsspp.PPSSPP/config/ppsspp/PSP/SYSTEM
 # envsubst < ./configs/ppsspp/controls.ini > ${HOME}/.var/app/org.ppsspp.PPSSPP/config/ppsspp/PSP/SYSTEM/controls.ini
 # envsubst < ./configs/ppsspp/ppsspp.ini > ${HOME}/.var/app/org.ppsspp.PPSSPP/config/ppsspp/PSP/SYSTEM/ppsspp.ini
+
+log_success "Module completed successfully"
+log_end

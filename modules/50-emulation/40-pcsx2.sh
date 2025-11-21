@@ -1,4 +1,8 @@
 #!/usr/bin/bash
+# Source logging functions
+source lib/logging.sh
+
+log_start
 
 # Instal PCSX2
 sudo flatpak install -y flathub net.pcsx2.PCSX2
@@ -16,3 +20,6 @@ mkdir -p ${HOME}/Games/Emulation/data/pcsx2/{cache,cheats,covers,snaps,textures,
 # Import PCSX2 configurations
 mkdir -p ${HOME}/.var/app/net.pcsx2.PCSX2/config/PCSX2/inis
 envsubst < ./configs/pcsx2/PCSX2.ini > ${HOME}/.var/app/net.pcsx2.PCSX2/config/PCSX2/inis/PCSX2.ini
+
+log_success "Module completed successfully"
+log_end

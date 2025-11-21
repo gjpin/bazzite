@@ -1,4 +1,8 @@
 #!/usr/bin/bash
+# Source logging functions
+source lib/logging.sh
+
+log_start
 
 # Instal mGBA
 sudo flatpak install -y flathub io.mgba.mGBA
@@ -16,3 +20,6 @@ mkdir -p ${HOME}/Games/Emulation/states/mgba
 # mkdir -p ${HOME}/.var/app/io.mgba.mGBA/config/mgba
 # envsubst < ./configs/mgba/config.ini | tee ${HOME}/.var/app/io.mgba.mGBA/config/mgba/config.ini
 # envsubst < ./configs/mgba/qt.ini | tee ${HOME}/.var/app/io.mgba.mGBA/config/mgba/qt.ini
+
+log_success "Module completed successfully"
+log_end

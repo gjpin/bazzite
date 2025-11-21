@@ -1,4 +1,8 @@
 #!/usr/bin/bash
+# Source logging functions
+source lib/logging.sh
+
+log_start
 
 # adw-gtk3 is already installed as part of the main image:
 # https://github.com/ublue-os/main/blob/main/packages.json
@@ -34,3 +38,6 @@ flatpak install -y flathub org.gtk.Gtk3theme.adw-gtk3-dark
 # tar -xf adw-*.tar.xz -C ${HOME}/.local/share/themes/
 # rm -f adw-*.tar.xz
 # EOF
+
+log_success "Module completed successfully"
+log_end

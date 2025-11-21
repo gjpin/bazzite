@@ -1,4 +1,8 @@
 #!/usr/bin/bash
+# Source logging functions
+source lib/logging.sh
+
+log_start
 
 # Instal Dolphin
 sudo flatpak install -y flathub org.DolphinEmu.dolphin-emu
@@ -14,3 +18,6 @@ mkdir -p ${HOME}/Games/Emulation/roms/{gc,wii}
 # mkdir -p ${HOME}/.var/app/org.DolphinEmu.dolphin-emu/config/dolphin-emu
 # cp -R ./configs/dolphin/* ${HOME}/.var/app/org.DolphinEmu.dolphin-emu/config/dolphin-emu
 # envsubst < ./configs/dolphin/Dolphin.ini | tee ${HOME}/.var/app/org.DolphinEmu.dolphin-emu/config/dolphin-emu/Dolphin.ini
+
+log_success "Module completed successfully"
+log_end

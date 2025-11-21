@@ -1,4 +1,8 @@
 #!/usr/bin/bash
+# Source logging functions
+source lib/logging.sh
+
+log_start
 
 # Install Ludusavi
 sudo flatpak install -y flathub com.github.mtkennerly.ludusavi
@@ -31,3 +35,6 @@ WantedBy=timers.target
 EOF
 
 systemctl --user enable ${HOME}/.config/systemd/user/ludusavi-backup.timer
+
+log_success "Module completed successfully"
+log_end

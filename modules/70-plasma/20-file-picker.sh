@@ -1,4 +1,8 @@
 #!/usr/bin/bash
+# Source logging functions
+source lib/logging.sh
+
+log_start
 
 # Use KDE file picker in Flatpak applications
 mkdir -p ${HOME}/.config/xdg-desktop-portal
@@ -15,3 +19,6 @@ sudo tee -a /etc/environment << EOF
 GDK_DEBUG=portals
 GTK_USE_PORTAL=1
 EOF
+
+log_success "Module completed successfully"
+log_end

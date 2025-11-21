@@ -1,4 +1,8 @@
 #!/usr/bin/bash
+# Source logging functions
+source lib/logging.sh
+
+log_start
 
 # Instal Flycast
 sudo flatpak install -y flathub org.flycast.Flycast
@@ -13,3 +17,6 @@ mkdir -p ${HOME}/Games/Emulation/roms/dreamcast
 # mkdir -p ${HOME}/.var/app/org.flycast.Flycast/config/flycast/mappings
 # envsubst < ./configs/flycast/emu.cfg | tee ${HOME}/.var/app/org.flycast.Flycast/config/flycast/emu.cfg
 # cp -R ./configs/flycast/mappings/* ${HOME}/.var/app/org.flycast.Flycast/config/flycast/mappings
+
+log_success "Module completed successfully"
+log_end

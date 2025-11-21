@@ -1,4 +1,8 @@
 #!/usr/bin/bash
+# Source logging functions
+source lib/logging.sh
+
+log_start
 
 # References:
 # https://www.reddit.com/r/Bazzite/comments/1o9kj1b/psa_fix_muddy_spotify_general_sound_issues_on/
@@ -27,3 +31,6 @@ EOF
 
 # Apply changes
 systemctl --user restart pipewire wireplumber pipewire-pulse
+
+log_success "Module completed successfully"
+log_end

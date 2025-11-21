@@ -1,4 +1,8 @@
 #!/usr/bin/bash
+# Source logging functions
+source lib/logging.sh
+
+log_start
 
 # Re-enable hot corners
 gsettings set org.gnome.desktop.interface enable-hot-corners true
@@ -38,3 +42,6 @@ if cat /sys/class/dmi/id/chassis_type | grep 10 > /dev/null; then
   gsettings set org.gnome.desktop.peripherals.touchpad tap-to-click true
   gsettings set org.gnome.desktop.peripherals.touchpad disable-while-typing false
 fi
+
+log_success "Module completed successfully"
+log_end

@@ -1,4 +1,8 @@
 #!/usr/bin/bash
+# Source logging functions
+source lib/logging.sh
+
+log_start
 
 # Create common directories
 mkdir -p \
@@ -11,3 +15,6 @@ mkdir -p \
 # Create WireGuard folder
 sudo mkdir -p /etc/wireguard
 sudo chmod 700 /etc/wireguard
+
+log_success "Module completed successfully"
+log_end
