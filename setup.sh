@@ -1,62 +1,37 @@
 #!/usr/bin/bash
 
+# Source logging functions
+source lib/logging.sh
+
+log_start
+
 ################################################
 ##### Set variables
 ################################################
 
+log_info "Prompting for hostname"
 read -p "Hostname: " NEW_HOSTNAME
 export NEW_HOSTNAME
+log_info "Hostname set to: $NEW_HOSTNAME"
 
 ################################################
-##### General
+##### Shared configurations
 ################################################
 
-# Set hostname
-sudo hostnamectl set-hostname --pretty "${NEW_HOSTNAME}"
-sudo hostnamectl set-hostname --static "${NEW_HOSTNAME}"
-
-# Create common directories
-mkdir -p \
-    ${HOME}/ssh \
-    ${HOME}/.local/share/themes \
-    ${HOME}/.local/bin \
-    ${HOME}/.local/share/flatpak/overrides \
-    ${HOME}/.config/systemd/user
-
-# Create WireGuard folder
-sudo mkdir -p /etc/wireguard
-sudo chmod 700 /etc/wireguard
-
-# Make NM not block boot
-sudo systemctl disable --now NetworkManager-wait-online.service
-
-# Enable BTRFS dedup
-# https://github.com/ublue-os/bazzite/blob/main/system_files/desktop/shared/usr/share/ublue-os/just/85-bazzite-image.just#L4
-ujust enable-deduplication
-
-# Disable MOTD
-ujust toggle-user-motd
-
-# Install Decky Loader
-# https://github.com/ublue-os/bazzite/blob/main/system_files/desktop/shared/usr/share/ublue-os/just/80-bazzite.just#L274
-ujust setup-decky install
-
-# Enable LUKS TPM unlock
-# https://github.com/ublue-os/packages/blob/main/packages/ublue-os-luks/src/luks-enable-tpm2-autounlock
-# https://github.com/ublue-os/packages/blob/main/packages/ublue-os-just/src/recipes/15-luks.just
-ujust setup-luks-tpm-unlock
-
-# Enable automounting
-# https://github.com/ublue-os/bazzite/blob/main/system_files/desktop/shared/usr/share/ublue-os/just/80-bazzite.just#L201
-ujust enable-automounting
-
-# Add user to input group
-# https://github.com/ublue-os/bazzite/blob/main/system_files/desktop/shared/usr/share/ublue-os/just/80-bazzite.just#L193
-ujust add-user-to-input-group
-
-# Steam devices udev rules
-sudo curl -sSL https://raw.githubusercontent.com/ValveSoftware/steam-devices/master/60-steam-input.rules -o /etc/udev/rules.d/60-steam-input.rules
-sudo curl -sSL https://raw.githubusercontent.com/ValveSoftware/steam-devices/master/60-steam-vr.rules -o /etc/udev/rules.d/60-steam-vr.rules
+log_info "Starting shared configurations"
+# Shared
+for module in modules/10-shared/*.sh; do
+  if [ -f "$module" ]; then
+    log_info "Running shared module: $module"
+    if bash "$module"; then
+      log_success "Completed $module"
+    else
+      log_error "Failed $module"
+      exit 1
+    fi
+  fi
+done
+log_success "Shared configurations completed"
 
 ################################################
 ##### Device type specific configurations
@@ -64,169 +39,116 @@ sudo curl -sSL https://raw.githubusercontent.com/ValveSoftware/steam-devices/mas
 
 # Desktop
 if cat /sys/class/dmi/id/chassis_type | grep 3 > /dev/null; then
-  # Enable WoL
-  # https://github.com/ublue-os/bazzite/blob/main/system_files/desktop/shared/usr/share/ublue-os/just/81-bazzite-fixes.just#L92
-  ujust toggle-wol enable
-  ujust toggle-wol force-enable
-  
-  # Fix WoL
-  sudo rpm-ostree kargs --append-if-missing="xhci_hcd.quirks=270336"
-  
-  # Full AMD GPU control
-  if lspci | grep "VGA" | grep "AMD" > /dev/null; then
-    sudo rpm-ostree kargs --append-if-missing="amdgpu.ppfeaturemask=0xffffffff"
-  fi
-
-  # Install LACT
-  # https://github.com/ublue-os/bazzite/blob/main/system_files/desktop/shared/usr/share/ublue-os/just/82-bazzite-apps.just#L28
-  ujust install-lact
-
-  # Enable SSHD and create authorized_keys file
-  ujust toggle-ssh enable
-  touch ${HOME}/.ssh/authorized_keys
+  log_info "Detected desktop chassis, starting desktop configurations"
+  for module in modules/20-desktop/*.sh; do
+    if [ -f "$module" ]; then
+      log_info "Running desktop module: $module"
+      if bash "$module"; then
+        log_success "Completed $module"
+      else
+        log_error "Failed $module"
+        exit 1
+      fi
+    fi
+  done
+  log_success "Desktop configurations completed"
+else
+  log_info "Not a desktop chassis, skipping desktop modules"
 fi
 
 # Steam Deck
 SYS_ID="$(/usr/libexec/hwsupport/sysid)"
 if [[ ":Jupiter:" =~ ":$SYS_ID:" || ":Galileo:" =~ ":$SYS_ID:" ]]; then
-  # Enable Steam Deck bios/firmware updates
-  # https://github.com/ublue-os/bazzite/blob/main/system_files/deck/shared/usr/share/ublue-os/just/85-bazzite-image.just#L41
-  ujust enable-deck-bios-firmware-updates
+  log_info "Detected Steam Deck (SYS_ID: $SYS_ID), starting Steam Deck configurations"
+  for module in modules/30-deck/*.sh; do
+    if [ -f "$module" ]; then
+      log_info "Running Steam Deck module: $module"
+      if bash "$module"; then
+        log_success "Completed $module"
+      else
+        log_error "Failed $module"
+        exit 1
+      fi
+    fi
+  done
+  log_success "Steam Deck configurations completed"
+else
+  log_info "Not a Steam Deck (SYS_ID: $SYS_ID), skipping Steam Deck modules"
 fi
-
-################################################
-##### Sunshine
-################################################
-
-# References:
-# https://www.answeroverflow.com/m/1276584307477057640
-# https://www.reddit.com/r/linux_gaming/comments/199ylqz/streaming_with_sunshine_from_virtual_screens/
-# https://git.linuxtv.org/v4l-utils.git/tree/utils/edid-decode/data
-# https://people.freedesktop.org/~imirkin/edid-decode/
-
-# Desktop
-if cat /sys/class/dmi/id/chassis_type | grep 3 > /dev/null; then
-
-  # Download EDID profiles for virtual displays
-  # Displays with 4k60 + HDR + 1280x800 support
-  sudo mkdir -p /usr/local/lib/firmware
-  sudo curl https://raw.githubusercontent.com/gjpin/bazzite/main/configs/edid/dell-up2718q-dp -o /usr/local/lib/firmware/dell-up2718q-dp
-  sudo curl https://raw.githubusercontent.com/gjpin/bazzite/main/configs/edid/samsung-q800t-hdmi2.1 -o /usr/local/lib/firmware/samsung-q800t-hdmi2.1
-
-  # Load EDID profile
-  # Replace dell-up2718q-dp with samsung-q800t-hdmi2.1 for HDMI
-  sudo rpm-ostree kargs --append-if-missing="firmware_class.path=/usr/local/lib/firmware drm.edid_firmware=DP-2:dell-up2718q-dp video=DP-2:e"
-
-  # Enable Sunshine
-  # https://github.com/ublue-os/bazzite/blob/main/system_files/desktop/shared/usr/share/ublue-os/just/82-bazzite-sunshine.just
-  ujust setup-sunshine enable
-
-  # Create Sunshine config directory
-  mkdir -p ${HOME}/.config/sunshine
-
-  # Import Sunshine apps
-  if [[ "$XDG_CURRENT_DESKTOP" == *"GNOME"* ]]; then
-    curl https://raw.githubusercontent.com/gjpin/bazzite/main/configs/sunshine/apps-gnome.json -o ${HOME}/.config/sunshine/apps.json
-  fi
-fi
-
-################################################
-##### Updates
-################################################
-
-# Updater helper
-tee ${HOME}/.local/bin/update-all << EOF
-#!/usr/bin/bash
-
-################################################
-##### System
-################################################
-
-# Update bazzite
-ujust update
-EOF
-
-chmod +x ${HOME}/.local/bin/update-all
-
-################################################
-##### Firefox
-################################################
-
-# Set Firefox profile path
-export FIREFOX_PROFILE_PATH=$(find ${HOME}/.var/app/org.mozilla.firefox/.mozilla/firefox -type d -name "*.default-release")
-
-# Import extensions
-mkdir -p ${FIREFOX_PROFILE_PATH}/extensions
-curl https://addons.mozilla.org/firefox/downloads/file/4003969/ublock_origin-latest.xpi -o ${FIREFOX_PROFILE_PATH}/extensions/uBlock0@raymondhill.net.xpi
-
-# Import Firefox configs
-curl https://raw.githubusercontent.com/gjpin/bazzite/main/configs/firefox/user.js -o ${FIREFOX_PROFILE_PATH}/user.js
 
 ################################################
 ##### Applications
 ################################################
 
-# Install Heroic Games Launcher
-sudo flatpak install -y flathub com.heroicgameslauncher.hgl
-
-# Create directories for Heroic games and prefixes
-mkdir -p ${HOME}/Games/Heroic/Prefixes
-
-# Install and start Syncthing
-brew install syncthing
-brew services start syncthing
-
-################################################
-##### Ludusavi
-################################################
-
-# Install Ludusavi
-sudo flatpak install -y flathub com.github.mtkennerly.ludusavi
-curl https://raw.githubusercontent.com/gjpin/bazzite/main/configs/flatpak/com.github.mtkennerly.ludusavi -o ${HOME}/.local/share/flatpak/overrides/com.github.mtkennerly.ludusavi
-
-# Import Ludusavi config
-mkdir -p ${HOME}/.var/app/com.github.mtkennerly.ludusavi/config/ludusavi
-curl https://raw.githubusercontent.com/gjpin/bazzite/main/configs/ludusavi/config.yaml | envsubst > ${HOME}/.var/app/com.github.mtkennerly.ludusavi/config/ludusavi/config.yaml
-
-# Set automatic backups
-# https://github.com/mtkennerly/ludusavi/blob/master/docs/help/backup-automation.md
-tee ~/.config/systemd/user/ludusavi-backup.service << 'EOF'
-[Unit]
-Description="Ludusavi backup"
-
-[Service]
-ExecStart=/usr/bin/flatpak run com.github.mtkennerly.ludusavi backup --force
-EOF
-
-tee ~/.config/systemd/user/ludusavi-backup.timer << 'EOF'
-[Unit]
-Description="Ludusavi backup timer"
-
-[Timer]
-OnCalendar=*:0/5
-Unit=ludusavi-backup.service
-
-[Install]
-WantedBy=timers.target
-EOF
-
-systemctl --user enable ${HOME}/.config/systemd/user/ludusavi-backup.timer
+log_info "Starting applications configurations"
+# Applications
+for module in modules/40-applications/*.sh; do
+  if [ -f "$module" ]; then
+    log_info "Running applications module: $module"
+    if bash "$module"; then
+      log_success "Completed $module"
+    else
+      log_error "Failed $module"
+      exit 1
+    fi
+  fi
+done
+log_success "Applications configurations completed"
 
 ################################################
-##### VR
+##### Emulation
 ################################################
 
-# Install WiVRn
-sudo flatpak install -y flathub io.github.wivrn.wivrn
-curl https://raw.githubusercontent.com/gjpin/bazzite/main/configs/flatpak/io.github.wivrn.wivrn -o ${HOME}/.local/share/flatpak/overrides/io.github.wivrn.wivrn
+log_info "Starting emulation configurations"
+# Emulation
+for module in modules/50-emulation/*.sh; do
+  if [ -f "$module" ]; then
+    log_info "Running emulation module: $module"
+    if bash "$module"; then
+      log_success "Completed $module"
+    else
+      log_error "Failed $module"
+      exit 1
+    fi
+  fi
+done
+log_success "Emulation configurations completed"
 
 ################################################
-##### Desktop Environment
+##### Desktop environment specific configurations
 ################################################
 
 # Install and configure desktop environment
 if [[ "$XDG_CURRENT_DESKTOP" == *"GNOME"* ]]; then
-  ./gnome.sh
+  log_info "Detected GNOME desktop environment, starting GNOME configurations"
+  for module in modules/60-gnome/*.sh; do
+    if [ -f "$module" ]; then
+      log_info "Running GNOME module: $module"
+      if bash "$module"; then
+        log_success "Completed $module"
+      else
+        log_error "Failed $module"
+        exit 1
+      fi
+    fi
+  done
+  log_success "GNOME configurations completed"
 elif [[ "$XDG_CURRENT_DESKTOP" == *"KDE"* ]]; then
-  ./plasma.sh
+  log_info "Detected KDE/Plasma desktop environment, starting Plasma configurations"
+  for module in modules/70-plasma/*.sh; do
+    if [ -f "$module" ]; then
+      log_info "Running Plasma module: $module"
+      if bash "$module"; then
+        log_success "Completed $module"
+      else
+        log_error "Failed $module"
+        exit 1
+      fi
+    fi
+  done
+  log_success "Plasma configurations completed"
+else
+  log_info "No supported desktop environment detected (XDG_CURRENT_DESKTOP: $XDG_CURRENT_DESKTOP), skipping desktop-specific modules"
 fi
+
+log_end
