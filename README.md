@@ -3,19 +3,20 @@
 2. Run setup.sh
 3. Configure secondary drives in Steam
    * Add both and rename to DATA1 / DATA2
-4. Copy SSH public key to $HOME/.ssh/authorized_keys
+4. Copy SSH private/public key to $HOME/.ssh
+   * Private key: `chmod 600 $HOME/.ssh/id_ecdsa`
+   * Public key: `chmod 644 $HOME/.ssh/id_ecdsa.pub`
 5. Copy wireguard key to /etc/wireguard and enable connection: `sudo nmcli con import type wireguard file /etc/wireguard/wg0.conf`
 6. Configure Heroic:
    * Login to GoG / Epic
-   * General -> Set folder for new wine prefix: $HOME/Games/Heroic/Prefixes
-   * General -> Automatically update games
-   * General -> Add games to Steam automatically
-   * Game Defaults -> WinePrefix folder: $HOME/Games/Heroic/Prefixes
+   * Settings -> General -> Set folder for new wine prefix: $HOME/Games/Heroic/Prefixes
+   * Settings -> General -> Automatically update games
+   * Settings -> General -> Add games to Steam automatically
+   * Settings -> Game Defaults -> WinePrefix folder: $HOME/Games/Heroic/Prefixes
    * Add Heroic to Steam (Steam -> Add a Game -> Heroic)
 7. In Steam Game Mode:
    * Install Decky Loader plugins
       * SteamGridDB
-      * HLTB for Deck
    * (HTPC only) Settings -> Display -> Maximum game resolution -> 3840x2160
 8. Configure RetroDeck:
    * Open RetroDeck and go through setup
