@@ -9,10 +9,10 @@ sudo flatpak install -y flathub com.github.mtkennerly.ludusavi
 cp ./configs/flatpak/com.github.mtkennerly.ludusavi ${HOME}/.local/share/flatpak/overrides/com.github.mtkennerly.ludusavi
 
 # Import Ludusavi configs
-mkdir -p ${HOME}/.var/app/com.github.mtkennerly.ludusavi/config/ludusavi
-cat ./configs/ludusavi/config-heroic.yaml | envsubst > ${HOME}/.var/app/com.github.mtkennerly.ludusavi/config/ludusavi/config-heroic.yaml
+mkdir -p ${HOME}/.var/app/com.github.mtkennerly.ludusavi/config/ludusavi/{heroic,steam}
 cat ./configs/ludusavi/config-heroic.yaml | envsubst > ${HOME}/.var/app/com.github.mtkennerly.ludusavi/config/ludusavi/config.yaml
-cat ./configs/ludusavi/config-steam.yaml | envsubst > ${HOME}/.var/app/com.github.mtkennerly.ludusavi/config/ludusavi/config-steam.yaml
+cat ./configs/ludusavi/config-heroic.yaml | envsubst > ${HOME}/.var/app/com.github.mtkennerly.ludusavi/config/ludusavi/heroic/config.yaml
+cat ./configs/ludusavi/config-steam.yaml | envsubst > ${HOME}/.var/app/com.github.mtkennerly.ludusavi/config/ludusavi/steam/config.yaml
 
 ################################################
 ##### Heroic integration
@@ -36,7 +36,7 @@ while true; do
     # --- RUN ON START ---
     # Restore save games with ludusavi
     /usr/bin/flatpak run com.github.mtkennerly.ludusavi \
-        --config="$HOME/.var/app/com.github.mtkennerly.ludusavi/config/ludusavi/config-heroic.yaml" \
+        --config="$HOME/.var/app/com.github.mtkennerly.ludusavi/config/ludusavi/heroic" \
         restore --force
 
     # Wait for Heroic to exit
@@ -47,7 +47,7 @@ while true; do
     # --- RUN ON EXIT ---
     # Backup save games with ludusavi
     /usr/bin/flatpak run com.github.mtkennerly.ludusavi \
-        --config="$HOME/.var/app/com.github.mtkennerly.ludusavi/config/ludusavi/config-heroic.yaml" \
+        --config="$HOME/.var/app/com.github.mtkennerly.ludusavi/config/ludusavi/heroic" \
         backup --force
 
     # Loop again to watch for next launch
@@ -86,7 +86,7 @@ tee ~/.config/systemd/user/ludusavi-steam.service << 'EOF'
 Description="Ludusavi - Steam"
 
 [Service]
-ExecStart=/usr/bin/flatpak run com.github.mtkennerly.ludusavi --config="$HOME/.var/app/com.github.mtkennerly.ludusavi/config/ludusavi/config-steam.yaml" backup --force
+ExecStart=/usr/bin/flatpak run com.github.mtkennerly.ludusavi --config="$HOME/.var/app/com.github.mtkennerly.ludusavi/config/ludusavi/steam" backup --force
 EOF
 
 tee ~/.config/systemd/user/ludusavi-steam.timer << 'EOF'
