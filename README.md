@@ -38,6 +38,9 @@
 3. Create OpenXR directory: `mkdir -p ~/.config/openxr/1`
 4. Set SteamVR as default OpenXR runtime: `ln -s ~/.local/share/Steam/steamapps/common/SteamVR/steamxr_linux64.json ~/.config/openxr/1/active_runtime.json`
 5. Disable SteamVR Home
+6. Steam Link:
+   * Encoded video size: 1344px (max)
+   * Target bandwidth: 300
 
 # Emulation
 |**Platform**|**Standalone**|**RetroArch Core**|**Default**|
