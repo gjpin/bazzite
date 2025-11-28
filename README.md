@@ -104,5 +104,6 @@ Steam:
 Game:
 - Resolution: 3840×2160 (4k)
 - Window mode: full screen
-- Quick access menu - Scaling Filter - Sharp: 2
+- Quick access menu -> Scaling Filter: Sharp
+- Quick access menu -> Sharpness: 2
 - HDR: on
