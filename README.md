@@ -76,7 +76,7 @@ References: [1](https://htpc.ninja/htpc-hardware-fine-tuning/), [2](https://www.
 - Power Limit (W): 250
 - Maximum GPU clock (MHz): 3000
 - Maximum VRAM clock (MHz): 2575
-- GPU voltage offset (mV): -50
+- GPU voltage offset (mV): -40
 
 ### Thermals
 - Curve:
