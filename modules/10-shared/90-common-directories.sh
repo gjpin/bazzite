@@ -10,7 +10,8 @@ mkdir -p \
     ${HOME}/.local/share/themes \
     ${HOME}/.local/bin \
     ${HOME}/.local/share/flatpak/overrides \
-    ${HOME}/.config/systemd/user
+    ${HOME}/.config/systemd/user \
+    ${HOME}/.config/environment.d
 
 # Correct .ssh permissions
 chmod 700 ${HOME}/.ssh

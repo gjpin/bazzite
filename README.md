@@ -75,8 +75,8 @@ References: [1](https://htpc.ninja/htpc-hardware-fine-tuning/), [2](https://www.
 ### OC
 - Power Limit (W): 250
 - Maximum GPU clock (MHz): 3000
-- Maximum VRAM clock (MHz): 2575
-- GPU voltage offset (mV): -40
+- Maximum VRAM clock (MHz): 2570
+- GPU voltage offset (mV): -30
 
 ### Thermals
 - Curve:
@@ -85,6 +85,9 @@ References: [1](https://htpc.ninja/htpc-hardware-fine-tuning/), [2](https://www.
   - 40% at 60c
   - 50% at 75c
   - 90% at 85c
+
+### Automatic profile switching
+- Activate profile 'VR' when "Process vrserver" is running
 
 # Port forward syncthing to _this machine
 ```bash
