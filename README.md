@@ -72,11 +72,8 @@ References: [1](https://htpc.ninja/htpc-hardware-fine-tuning/), [2](https://www.
     - All core curve optimizer magnitude: 30
 
 ## LACT
-### OC
-- Power Limit (W): 250
-- Maximum GPU clock (MHz): 3000
-- Maximum VRAM clock (MHz): 2570
-- GPU voltage offset (mV): -30
+### Undervolt
+- GPU voltage offset (mV): -100
 
 ### Thermals
 - Curve:
