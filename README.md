@@ -60,7 +60,7 @@
 |Saturn|N/A|[Beetle Saturn](https://docs.libretro.com/library/beetle_saturn/)|RetroArch|
 
 # Undervolting / Overclocking
-References: [1](https://htpc.ninja/htpc-hardware-fine-tuning/), [2](https://www.reddit.com/r/radeon/comments/188k784/undervolt_settings_for_rx_7800_xt_red_devil_16gb/)
+References: [1](https://htpc.ninja/htpc-hardware-fine-tuning/), [2](https://www.reddit.com/r/radeon/comments/188k784/undervolt_settings_for_rx_7800_xt_red_devil_16gb/), [3](https://www.techpowerup.com/review/amd-radeon-rx-7800-xt/40.html)
 ## BIOS
 - Advanced
   - PCI Subsystem settings
@@ -72,8 +72,15 @@ References: [1](https://htpc.ninja/htpc-hardware-fine-tuning/), [2](https://www.
     - All core curve optimizer magnitude: 30
 
 ## LACT
-### Undervolt
-- GPU voltage offset (mV): -100
+### OC
+- Power Usage Limit (W): 280
+- Performance level: Manual
+- Power Porfile Mode: 3D_FULL_SCREEN / VR
+- GPU voltage offset (mV): -150
+- Optional (might require -100mV):
+   - Maximum GPU clock (MHz): 3000
+   - Minimum GPU clock (MHz): 2550
+   - Maximum VRAM clock (MHz): 2550
 
 ### Thermals
 - Curve:
