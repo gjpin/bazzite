@@ -76,8 +76,8 @@ References: [1](https://htpc.ninja/htpc-hardware-fine-tuning/), [2](https://www.
 - Power Usage Limit (W): 280
 - Performance level: Manual
 - Power Porfile Mode: 3D_FULL_SCREEN / VR
-- GPU voltage offset (mV): -150
-- Optional (might require -100mV):
+- GPU voltage offset (mV): -100
+- Optional:
    - Maximum GPU clock (MHz): 3000
    - Minimum GPU clock (MHz): 2550
    - Maximum VRAM clock (MHz): 2550
