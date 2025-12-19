@@ -11,7 +11,7 @@ sudo flatpak install -y ${HOME}/Downloads/BSManager.flatpak
 rm -f ${HOME}/Downloads/BSManager.flatpak
 
 # Import Flatpak overrides
-# cp ./configs/flatpak/com.vysp3r.ProtonPlus ${HOME}/.local/share/flatpak/overrides/com.vysp3r.ProtonPlus
+cp ./configs/flatpak/io.bsmanager.bsmanager ${HOME}/.local/share/flatpak/overrides/io.bsmanager.bsmanager
 
 log_success "Module completed successfully"
 log_end
