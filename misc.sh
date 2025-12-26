@@ -1,9 +1,17 @@
 #!/usr/bin/bash
 
-# Source logging functions
-source lib/logging.sh
+################################################
+##### Environment variables
+################################################
 
-log_start
+tee -a ~/.config/environment.d/90-proton.conf << 'EOF'
+
+PROTON_ENABLE_WAYLAND=1
+PROTON_ENABLE_HDR=1
+PROTON_FSR4_UPGRADE=1
+SteamDeck=0
+EOF
+
 ################################################
 ##### Bluetooth WoL
 ################################################

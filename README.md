@@ -34,13 +34,14 @@
 
 # SteamVR
 1. Install SteamVR
-2. Set SteamVR launch options: `RADV_PERFTEST=video_encode %command%`
+2. Set SteamVR launch options: `RADV_PERFTEST=video_encode,video_decode /home/$USER/.steam/steam/steamapps/common/SteamVR/bin/vrmonitor.sh %command%`
 3. Create OpenXR directory: `mkdir -p ~/.config/openxr/1`
 4. Set SteamVR as default OpenXR runtime: `ln -s ~/.local/share/Steam/steamapps/common/SteamVR/steamxr_linux64.json ~/.config/openxr/1/active_runtime.json`
+   4.1. Alternative: `$HOME/.local/share/Steam/steamapps/common/SteamVR/bin/linux64/../vrmonitor.sh vrmonitor://openxr/makedefault`
 5. Disable SteamVR Home
 6. Steam Link:
    * Encoded video size: 1344px (max)
-   * Target bandwidth: 300
+   * Target bandwidth: 200
 
 # Emulation
 |**Platform**|**Standalone**|**RetroArch Core**|**Default**|
@@ -91,7 +92,7 @@ References: [1](https://htpc.ninja/htpc-hardware-fine-tuning/), [2](https://www.
   - 90% at 85c
 
 ### Automatic profile switching
-- Activate profile 'VR' when "Process vrserver" is running
+- Activate profile 'VR' when "Process: vrserver" or "Process: wivrn-server" are running
 
 # Port forward syncthing to _this machine
 ```bash
